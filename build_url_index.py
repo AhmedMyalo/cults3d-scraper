@@ -6,7 +6,13 @@ whole catalogue is enumerable in ~403 gzipped requests with no pagination, no
 per-listing row cap, and no dependence on a stable sort order or on which
 listing filters happen to be on by default.
 
-Output: url_index/urls_NNN.jsonl, one row per model, plus url_index/meta.json.
+Output: url_index/urls_NNNN.tsv.gz ("<group>\t<slug>" per line) plus meta.json.
+
+The format is deliberately minimal. Written as JSONL with the full URL and
+lastmod it came to 524MB, which is too much to carry in a git repo that also
+has to hold the scrape output. The URL is fully derivable from group + slug,
+and published_at is read off the model page anyway, so storing either here is
+pure duplication. Compact + gzipped lands around 45MB.
 """
 import argparse
 import gzip
@@ -93,23 +99,25 @@ def main():
     t0 = time.time()
     for i, sm in enumerate(sitemaps, 1):
         # Resumable: a finished sitemap has its own output file.
-        part = os.path.join(args.out, f"urls_{i:04d}.jsonl")
+        part = os.path.join(args.out, f"urls_{i:04d}.tsv.gz")
         if os.path.exists(part):
-            with open(part, encoding="utf-8") as f:
+            with gzip.open(part, "rt", encoding="utf-8") as f:
                 for line in f:
-                    seen.add(json.loads(line)["slug"])
-                    total += 1
+                    parts = line.rstrip("\n").split("\t")
+                    if len(parts) == 2:
+                        seen.add(parts[1])
+                        total += 1
             continue
 
         rows = list(parse_sitemap(session, sm))
         tmp = part + ".tmp"
         n_new = 0
-        with open(tmp, "w", encoding="utf-8") as f:
+        with gzip.open(tmp, "wt", encoding="utf-8") as f:
             for row in rows:
                 if row["slug"] in seen:
                     continue           # same model can appear under >1 group
                 seen.add(row["slug"])
-                f.write(json.dumps(row, ensure_ascii=False) + "\n")
+                f.write(f"{row['group']}\t{row['slug']}\n")
                 n_new += 1
         os.replace(tmp, part)
         total += n_new

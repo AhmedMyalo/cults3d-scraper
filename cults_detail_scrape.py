@@ -12,6 +12,7 @@ proved it under 8-way parallelism:
 """
 import argparse
 import glob
+import gzip
 import json
 import os
 import random
@@ -139,14 +140,20 @@ def load_done(out_dir):
 
 
 def load_index(index_dir):
+    """Read the compact index. The URL is rebuilt from group + slug."""
     rows = []
-    for p in sorted(glob.glob(os.path.join(index_dir, "urls_*.jsonl"))):
-        with open(p, encoding="utf-8") as f:
+    for p in sorted(glob.glob(os.path.join(index_dir, "urls_*.tsv.gz"))):
+        with gzip.open(p, "rt", encoding="utf-8") as f:
             for line in f:
-                try:
-                    rows.append(json.loads(line))
-                except ValueError:
+                parts = line.rstrip("\n").split("\t")
+                if len(parts) != 2:
                     continue
+                group, slug = parts
+                rows.append({
+                    "group": group,
+                    "slug": slug,
+                    "url": f"https://cults3d.com/en/3d-model/{group}/{slug}",
+                })
     return rows
 
 

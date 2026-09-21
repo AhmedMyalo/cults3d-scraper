@@ -13,6 +13,7 @@ small ABSOLUTE residue rather than a percentage.
 """
 import argparse
 import glob
+import gzip
 import json
 import os
 import re
@@ -28,13 +29,12 @@ ALLOWED_RESIDUE = 5_000
 
 def load_index_slugs(index_dir):
     slugs = set()
-    for p in sorted(glob.glob(os.path.join(index_dir, "urls_*.jsonl"))):
-        with open(p, encoding="utf-8") as f:
+    for p in sorted(glob.glob(os.path.join(index_dir, "urls_*.tsv.gz"))):
+        with gzip.open(p, "rt", encoding="utf-8") as f:
             for line in f:
-                try:
-                    slugs.add(json.loads(line)["slug"])
-                except (ValueError, KeyError):
-                    continue
+                parts = line.rstrip("\n").split("\t")
+                if len(parts) == 2:
+                    slugs.add(parts[1])
     return slugs
 
 
