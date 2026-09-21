@@ -26,7 +26,12 @@ sys.stdout.reconfigure(encoding="utf-8")
 from cults_parse import parse_model
 from cults_session import make_session
 
-SHARD_MAX_ROWS = 20_000
+# Sized to roughly one CI chunk: at the safe ~2 req/s a 40-minute chunk yields
+# ~4,800 rows. Rolling at 5,000 means a shard file is usually finished by the
+# time it is committed, instead of being re-committed at four growing sizes and
+# leaving three redundant copies in git history. Also keeps every file ~6MB,
+# far under GitHub's 100MB limit.
+SHARD_MAX_ROWS = 5_000
 
 
 class Throttle:
