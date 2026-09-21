@@ -75,6 +75,7 @@ pip install -r requirements.txt
 python build_url_index.py                 # ~403 requests -> url_index/
 python cults_detail_scrape.py             # resumable; --shard I/N to parallelise
 python check_completion.py                # coverage vs. the site's own totals
+python export_csv.py                      # JSONL shards -> csv/, deduped by id
 ```
 
 On Linux the scraper must be wrapped: `xvfb-run -a python cults_detail_scrape.py`.
