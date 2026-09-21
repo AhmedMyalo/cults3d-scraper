@@ -1,0 +1,7 @@
+requests>=2.32
+beautifulsoup4>=4.12
+patchright>=1.40
+# requests advertises br/zstd; without these it hands back binary garbage that
+# looks alarmingly like a Cloudflare challenge page.
+brotli>=1.1
+zstandard>=0.22

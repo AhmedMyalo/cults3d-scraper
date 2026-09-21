@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+chrome_profile/
+chrome_profile_hl/
+session.json
+*.tmp

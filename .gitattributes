@@ -1,0 +1,5 @@
+# These run on Linux CI runners. CRLF would break the shebang ("bad
+# interpreter") and mangle the workflow YAML, so pin them to LF.
+*.sh  text eol=lf
+*.yml text eol=lf
+*.py  text eol=lf

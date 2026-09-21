@@ -1,0 +1,89 @@
+name: scrape
+
+# Throughput here is bounded by IP, not by CPU: one IP sustains ~2 req/s before
+# Cloudflare starts returning 429, no matter how many threads it runs. Each
+# runner gets its own IP, so the matrix width IS the speed knob.
+
+on:
+  workflow_dispatch:
+    inputs:
+      shards:
+        description: "number of parallel shards"
+        default: "20"
+      minutes:
+        description: "scrape minutes per job (job hard-limit is 360)"
+        default: "300"
+
+permissions:
+  contents: write
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.gen.outputs.matrix }}
+    steps:
+      - id: gen
+        run: |
+          N=${{ github.event.inputs.shards }}
+          echo "matrix=$(python3 -c "import json;print(json.dumps(list(range(1,$N+1))))")" >> $GITHUB_OUTPUT
+
+  scrape:
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false        # one shard dying must not kill the other 19
+      max-parallel: 20
+      matrix:
+        shard: ${{ fromJson(needs.plan.outputs.matrix) }}
+    # Per-shard group: independent shards must never queue behind each other.
+    concurrency:
+      group: scrape-${{ matrix.shard }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install deps
+        run: |
+          pip install -q -r requirements.txt
+          # patchright drives the REAL Chrome, not a bundled Chromium build.
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq xvfb google-chrome-stable || \
+            sudo apt-get install -y -qq xvfb chromium-browser
+          google-chrome --version || chromium-browser --version
+
+      - name: Scrape (chunked, committing as it goes)
+        env:
+          BRANCH: ${{ github.ref_name }}
+          SHARD: ${{ matrix.shard }}
+          TOTAL: ${{ github.event.inputs.shards }}
+          BUDGET: ${{ github.event.inputs.minutes }}
+        run: |
+          chmod +x commit_progress.sh
+          END=$(( $(date +%s) + BUDGET * 60 ))
+          CHUNK=2400          # ~40min, then push, so a lost runner costs little
+          while [ "$(date +%s)" -lt "$END" ]; do
+            LEFT=$(( END - $(date +%s) ))
+            [ "$LEFT" -lt 300 ] && break
+            RUN=$(( LEFT < CHUNK ? LEFT : CHUNK ))
+            # headless Chrome is detected by Cloudflare and never clears the
+            # challenge, so a real display (xvfb) is mandatory, not cosmetic.
+            xvfb-run -a --server-args="-screen 0 1366x900x24" \
+              python cults_detail_scrape.py \
+                --shard "${SHARD}/${TOTAL}" \
+                --max-seconds "$RUN" || echo "chunk exited $?; continuing"
+            ./commit_progress.sh "shard ${SHARD}/${TOTAL}: progress" || true
+          done
+
+      - name: Final push
+        if: always()
+        env:
+          BRANCH: ${{ github.ref_name }}
+        run: ./commit_progress.sh "shard ${{ matrix.shard }}: final" || true
