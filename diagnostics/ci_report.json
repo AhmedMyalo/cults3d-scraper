@@ -1,0 +1,134 @@
+{
+  "when": "2026-09-21T23:51:25",
+  "plain_requests": {
+    "status": 403,
+    "cf_mitigated": "challenge",
+    "cf_ray": "a3ecfa4fa8d7e5c6-DFW",
+    "server": "cloudflare",
+    "len": 5535,
+    "title": "Just a moment...",
+    "looks_blocked": false,
+    "looks_challenge": true,
+    "body_snippet": "<!DOCTYPE html><html lang=\"en-US\"><head><title>Just a moment...</title><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=Edge\"><meta name=\"robots\" content=\"noindex,nofollow\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><meta http-equiv=\"content-security-policy\" content=\"default-src &#39;none&#39;; script-src &#39"
+  },
+  "chrome_launched": true,
+  "ua": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
+  "goto": {
+    "status": 403,
+    "cf_mitigated": "challenge"
+  },
+  "timeline": [
+    {
+      "t": 1,
+      "title": "Just a moment...",
+      "turnstile_frames": 0,
+      "body": "cults3d.com\nPerforming security verification\n\nThis website uses a security service to protect against malicious bots. Th"
+    },
+    {
+      "t": 6,
+      "title": "Just a moment...",
+      "turnstile_frames": 1,
+      "body": "cults3d.com\nPerforming security verification\n\nThis website uses a security service to protect against malicious bots. Th"
+    },
+    {
+      "t": 11,
+      "title": "Just a moment...",
+      "turnstile_frames": 1,
+      "body": "cults3d.com\nPerforming security verification\n\nThis website uses a security service to protect against malicious bots. Th"
+    },
+    {
+      "t": 16,
+      "title": "Just a moment...",
+      "turnstile_frames": 1,
+      "body": "cults3d.com\nPerforming security verification\n\nThis website uses a security service to protect against malicious bots. Th"
+    },
+    {
+      "t": 21,
+      "title": "Just a moment...",
+      "turnstile_frames": 1,
+      "body": "cults3d.com\nPerforming security verification\n\nThis website uses a security service to protect against malicious bots. Th"
+    },
+    {
+      "t": 26,
+      "title": "Just a moment...",
+      "turnstile_frames": 1,
+      "body": "cults3d.com\nPerforming security verification\n\nThis website uses a security service to protect against malicious bots. Th"
+    },
+    {
+      "t": 31,
+      "title": "Just a moment...",
+      "turnstile_frames": 1,
+      "body": "cults3d.com\nPerforming security verification\n\nThis website uses a security service to protect against malicious bots. Th"
+    },
+    {
+      "t": 36,
+      "title": "Just a moment...",
+      "turnstile_frames": 1,
+      "body": "cults3d.com\nPerforming security verification\n\nThis website uses a security service to protect against malicious bots. Th"
+    },
+    {
+      "t": 41,
+      "title": "Just a moment...",
+      "turnstile_frames": 1,
+      "body": "cults3d.com\nPerforming security verification\n\nThis website uses a security service to protect against malicious bots. Th"
+    },
+    {
+      "t": 46,
+      "title": "Just a moment...",
+      "turnstile_frames": 1,
+      "body": "cults3d.com\nPerforming security verification\n\nThis website uses a security service to protect against malicious bots. Th"
+    },
+    {
+      "t": 51,
+      "title": "Just a moment...",
+      "turnstile_frames": 1,
+      "body": "cults3d.com\nPerforming security verification\n\nThis website uses a security service to protect against malicious bots. Th"
+    },
+    {
+      "t": 56,
+      "title": "Just a moment...",
+      "turnstile_frames": 1,
+      "body": "cults3d.com\nPerforming security verification\n\nThis website uses a security service to protect against malicious bots. Th"
+    },
+    {
+      "t": 61,
+      "title": "Just a moment...",
+      "turnstile_frames": 1,
+      "body": "cults3d.com\nPerforming security verification\n\nThis website uses a security service to protect against malicious bots. Th"
+    },
+    {
+      "t": 66,
+      "title": "Just a moment...",
+      "turnstile_frames": 1,
+      "body": "cults3d.com\nPerforming security verification\n\nThis website uses a security service to protect against malicious bots. Th"
+    },
+    {
+      "t": 71,
+      "title": "Just a moment...",
+      "turnstile_frames": 1,
+      "body": "cults3d.com\nPerforming security verification\n\nThis website uses a security service to protect against malicious bots. Th"
+    },
+    {
+      "t": 76,
+      "title": "Just a moment...",
+      "turnstile_frames": 1,
+      "body": "cults3d.com\nPerforming security verification\n\nThis website uses a security service to protect against malicious bots. Th"
+    },
+    {
+      "t": 81,
+      "title": "Just a moment...",
+      "turnstile_frames": 1,
+      "body": "cults3d.com\nPerforming security verification\n\nThis website uses a security service to protect against malicious bots. Th"
+    },
+    {
+      "t": 86,
+      "title": "Just a moment...",
+      "turnstile_frames": 1,
+      "body": "cults3d.com\nPerforming security verification\n\nThis website uses a security service to protect against malicious bots. Th"
+    }
+  ],
+  "cleared_at": null,
+  "cookies": [],
+  "has_cf_clearance": false,
+  "final_body": "cults3d.com\nPerforming security verification\n\nThis website uses a security service to protect against malicious bots. This page is displayed while the website verifies you are not a bot.\n\nRay ID: a3ecfa97eb34c06e\nPerformance and Security by Cloudflare\nPrivacy"
+}
