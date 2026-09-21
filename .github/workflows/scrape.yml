@@ -86,4 +86,7 @@ jobs:
         if: always()
         env:
           BRANCH: ${{ github.ref_name }}
-        run: ./commit_progress.sh "shard ${{ matrix.shard }}: final" || true
+        # Block scalar: the ": " inside the commit message would otherwise be
+        # parsed as a YAML mapping.
+        run: |
+          ./commit_progress.sh "shard ${{ matrix.shard }} final" || true
