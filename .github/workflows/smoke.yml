@@ -1,0 +1,80 @@
+name: smoke
+
+# Answers the one question that cannot be tested from a Windows dev box:
+# does patchright + real Chrome clear Cloudflare on a GitHub runner, where
+# there is no display and the IP is a datacentre IP Cloudflare rates as
+# far more suspicious than a home connection?
+#
+# Scrapes a handful of models and commits nothing.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install deps
+        run: |
+          pip install -q -r requirements.txt
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq xvfb google-chrome-stable
+          google-chrome --version
+
+      - name: Can we clear the challenge at all?
+        run: |
+          xvfb-run -a --server-args="-screen 0 1366x900x24" python - <<'PY'
+          import sys, time
+          sys.path.insert(0, ".")
+          from cults_session import solve_challenge
+          t0 = time.time()
+          ua, cookies = solve_challenge(profile_dir="ci_profile")
+          print(f"cleared in {time.time()-t0:.1f}s")
+          print(f"ua = {ua}")
+          print(f"cf_clearance present = {'cf_clearance' in cookies}")
+          PY
+
+      - name: Does the cookie then work at speed?
+        run: |
+          xvfb-run -a --server-args="-screen 0 1366x900x24" python - <<'PY'
+          import sys, time
+          sys.path.insert(0, ".")
+          from cults_session import make_session
+          from cults_parse import parse_model
+          s = make_session()
+          urls = [
+              "https://cults3d.com/en/3d-model/home/kitchen-set-spring",
+              "https://cults3d.com/en/3d-model/game/cthulhu-majs84",
+              "https://cults3d.com/en/3d-model/tool/equerre-pliable",
+          ]
+          t0 = time.time()
+          for u in urls:
+              r = s.get(u, timeout=30)
+              row = parse_model(r.text, u)
+              print(f"  {r.status_code}  id={row['design_id']:<9} "
+                    f"views={row['views_raw']:<6} dl={row['downloads']:<6} "
+                    f"likes={row['likes']:<5} {str(row['title'])[:40]}")
+              assert r.status_code == 200, f"got {r.status_code} for {u}"
+              assert row["design_id"], f"failed to parse {u}"
+          print(f"3 models in {time.time()-t0:.1f}s via plain requests")
+          PY
+
+      - name: Short paced run (the config CI will actually use)
+        run: |
+          xvfb-run -a --server-args="-screen 0 1366x900x24" \
+            python cults_detail_scrape.py --out smoke_out --limit 40 --max-seconds 120
+          python - <<'PY'
+          import glob, json
+          rows = [json.loads(l) for p in glob.glob("smoke_out/part_*.jsonl")
+                  for l in open(p, encoding="utf-8")]
+          print(f"scraped {len(rows)} rows, {len({r['design_id'] for r in rows})} unique")
+          assert len(rows) >= 30, "too few rows - runner IP may be throttled harder"
+          PY
