@@ -142,4 +142,59 @@ def parse_model(html, url=None):
     row["tags"] = [a["href"].rstrip("/").rsplit("/", 1)[-1]
                    for a in soup.select('a[href*="/tags/"]')]
 
+    # --- spec table (License / Usages / 3D design format / ...) ----------
+    # Rendered as <tr><th>label</th><td>value</td></tr>. Read the labels
+    # rather than positions, so a re-ordered table does not silently shift
+    # every field by one.
+    spec = {}
+    for tr in soup.select("tr"):
+        th, td = tr.find("th"), tr.find("td")
+        if th and td:
+            spec[th.get_text(" ", strip=True).strip().lower()] = td
+
+    lic = spec.get("license")
+    # The cell text interleaves icon glyphs ("👤 CULTS PU 🚫 AI No AI"), so
+    # take the link labels instead of the raw text.
+    row["license"] = ([s.get_text(" ", strip=True)
+                       for s in lic.select("span.link--strong")] if lic else [])
+    row["is_no_ai"] = any("no ai" in l.lower() for l in row["license"])
+
+    usages = spec.get("usages")
+    row["usages"] = ([a.get_text(" ", strip=True) for a in usages.select("a")]
+                     if usages else [])
+
+    fmt = spec.get("3d design format")
+    row["file_count"] = None
+    row["file_names"] = []
+    if fmt:
+        summary = fmt.find("summary")
+        label = summary.get_text(" ", strip=True) if summary else ""
+        m = re.search(r"(\d+)\s*files?\s*\(([^)]*)\)", label)
+        if m:
+            row["file_count"] = int(m.group(1))
+            row["file_format"] = m.group(2).strip()   # more precise than LD+JSON
+        row["file_names"] = [li.get_text(" ", strip=True)
+                             for li in fmt.select("ul.list--bullet li")]
+
+    # --- designer's own totals ------------------------------------------
+    for k in ("author_designs", "author_downloads", "author_followers",
+              "author_sales"):
+        row[k] = None
+    stats = soup.select_one("ul.list--statistics")
+    if stats:
+        for li in stats.select("li"):
+            cnt = li.select_one("span.list--statistics__count")
+            if not cnt:
+                continue
+            value = _num(cnt.get_text(strip=True))
+            label = li.get_text(" ", strip=True).lower()
+            if "design" in label:
+                row["author_designs"] = value
+            elif "download" in label:
+                row["author_downloads"] = value
+            elif "follower" in label:
+                row["author_followers"] = value
+            elif "sale" in label:
+                row["author_sales"] = value
+
     return row
