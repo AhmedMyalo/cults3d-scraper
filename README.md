@@ -65,8 +65,25 @@ reputation rather than a ban.
 
 This is the key difference from the sibling project: AWS WAF did not care where
 the request came from, Cloudflare does. **The 20-runner fan-out is unavailable**,
-and the crawl is limited to whatever residential IPs are on hand — about
-**17 days of continuous running** for 2.92M models from one.
+and the crawl is limited to whatever residential IPs are on hand.
+
+### What it actually does in production
+
+Measured over consecutive one-hour windows of the real run, not a benchmark:
+
+| | |
+| --- | --- |
+| sustained rate | **1.88 req/s** (~6,800 models/hour) |
+| permanently gone (404/410) | **3.3%** of the index |
+| transient failures | ~0.2% |
+| full catalogue | **~18 days** of continuous running from one IP |
+
+The gap between this and the 2.00 req/s benchmark is real work the benchmark
+never did: deleted models, retries, and periodic challenge re-solves.
+
+`--shard I/N` splits the index deterministically, so a second machine on a
+different IP (a phone hotspot, not the same house) roughly halves the wall
+clock.
 
 ### Catalogue enumeration
 
