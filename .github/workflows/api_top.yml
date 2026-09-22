@@ -1,0 +1,109 @@
+name: api-top
+
+# Collects the top-downloaded recent models per category, one day's quota at a
+# time. Runs itself daily so Ahmed does not have to click anything, and opens
+# an issue when the whole target is collected - a GitHub issue is the only
+# free notification route that reliably reaches his email.
+
+on:
+  schedule:
+    - cron: "0 6 * * *"      # 06:00 UTC daily
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: api-top
+  cancel-in-progress: false   # never interrupt a run that is mid-collection
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: pip install -q requests
+
+      - name: Collect
+        env:
+          CULTS_USER: ${{ secrets.CULTS_USER }}
+          CULTS_KEY: ${{ secrets.CULTS_KEY }}
+        run: |
+          mkdir -p diagnostics
+          set -o pipefail
+          python api_top.py --out top_data --per-category 30000 --years 3 \
+            2>&1 | tee diagnostics/api_top_log.txt | tail -30
+
+      - name: Commit progress
+        if: always()
+        run: |
+          git config user.name  "cults3d-scraper"
+          git config user.email "scraper@users.noreply.github.com"
+          git add -f top_data/ diagnostics/api_top_log.txt 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "nothing new"
+          else
+            git commit -q -m "top-downloaded collection progress [skip ci]"
+            git pull --rebase -q origin main || true
+            git push -q origin HEAD:main && echo pushed
+          fi
+
+      - name: Notify when the collection is complete
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          # Multi-line values must travel through env, never through ${{ }}
+          # interpolation - a newline there is a guaranteed JS syntax error.
+          SUMMARY: ${{ github.run_id }}
+        with:
+          script: |
+            const fs = require('fs');
+            let done = 'no';
+            try { done = fs.readFileSync('top_data/COMPLETE', 'utf8').trim(); }
+            catch (e) { return; }
+            if (done !== 'yes') { console.log('still collecting'); return; }
+
+            let rows = 0;
+            for (const f of fs.readdirSync('top_data')) {
+              if (f.startsWith('part_') && f.endsWith('.jsonl')) {
+                rows += fs.readFileSync('top_data/' + f, 'utf8')
+                          .split('\n').filter(Boolean).length;
+              }
+            }
+            const body = [
+              '## The top-downloaded collection is finished',
+              '',
+              '**' + rows.toLocaleString() + ' models** collected in `top_data/`:',
+              'the most-downloaded paid designs of the last 3 years, per category.',
+              '',
+              '### Reminder, as agreed',
+              'Merge the two earlier collections into this one before analysing:',
+              '',
+              '- `details/` - 49,939 models from the scraping phase (42 columns)',
+              '- `api_data/` - 26,571 models from the first API run (from 2013)',
+              '- `top_data/` - this collection',
+              '',
+              'They overlap, so dedupe on `slug`. The three have different column',
+              'sets, and `views` in `details/` is rounded ("4k") while `viewsCount`',
+              'here is exact - do not mix those two columns.',
+              '',
+              '### Next',
+              'Ask Claude: "merge the Cults3D datasets and show me what sells".',
+              '',
+              '_Run: ' + process.env.SUMMARY + '_'
+            ].join('\n');
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'Cults3D: collection finished, ready to analyse',
+              body: body
+            });
+            console.log('issue created');
