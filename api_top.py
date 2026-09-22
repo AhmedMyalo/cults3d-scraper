@@ -25,16 +25,13 @@ from datetime import datetime, timedelta, timezone
 
 sys.stdout.reconfigure(encoding="utf-8")
 
-from api_scrape import Api, Stop, Writer
+from api_scrape import Api, Stop, Writer, discover_selection
 
 OFFSET_CAP = 50_000
 PAGE = 100
-FIELDS = ("identifier slug name description publishedAt updatedAt "
-          "viewsCount likesCount downloadsCount madeWithAi safe featured "
-          "url shortUrl illustrationImageUrl "
-          "price { cents value } totalSalesAmount { cents value } "
-          "creator { nick } license { name } category { id name slug } "
-          "tags comments { id } makes { id } collections { id }")
+# Do NOT hand-write this. api_scrape.discover_selection reads the real schema
+# at runtime; hardcoding it here is exactly how this script died on its first
+# run, guessing that Comment has an `id` field. It does not.
 
 
 def known_slugs():
@@ -68,6 +65,9 @@ def main():
         sys.exit("CULTS_USER / CULTS_KEY not set")
 
     api = Api(user, key)
+    fields = discover_selection(api)
+    print(f'[schema] selection built by introspection '
+          f'({len(fields.split())} tokens)')
     os.makedirs(args.out, exist_ok=True)
     state_path = os.path.join(args.out, "progress.json")
     state = json.load(open(state_path, encoding="utf-8")) \
@@ -99,7 +99,7 @@ def main():
                      " creationsBatch(limit: %d, offset: $o, submittedAfter: $a,"
                      " categorySlugEn: $c, onlyPriced: true,"
                      " sort: BY_DOWNLOADS, direction: DESC)"
-                     " { results { %s } } }" % (PAGE, FIELDS))
+                     " { results { %s } } }" % (PAGE, fields))
                 rows = api(q, {"a": since, "c": slug, "o": off})["creationsBatch"]["results"]
                 if not rows:
                     break
@@ -129,7 +129,8 @@ def main():
     except Stop as e:
         finished = False
         print(f"\n[STOPPED] {e}")
-        print("[STOPPED] Not retrying - this is the daily cap, resume tomorrow.")
+        print("[STOPPED] Not retrying. A daily cap resumes tomorrow on its "
+              "own; a schema error needs fixing first.")
     except KeyboardInterrupt:
         print("\n[time budget reached]")
     finally:

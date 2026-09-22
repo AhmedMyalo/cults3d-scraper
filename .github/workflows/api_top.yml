@@ -100,10 +100,13 @@ jobs:
               '_Run: ' + process.env.SUMMARY + '_'
             ].join('\n');
 
-            await github.rest.issues.create({
+            // Assigning notifies him whether or not he watches the repo,
+            // which is the part he should not have to configure by hand.
+            const issue = await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: 'Cults3D: collection finished, ready to analyse',
-              body: body
+              body: body,
+              assignees: [context.repo.owner]
             });
-            console.log('issue created');
+            console.log('issue #' + issue.data.number + ' created and assigned');
