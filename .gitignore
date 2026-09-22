@@ -4,3 +4,4 @@ chrome_profile/
 chrome_profile_hl/
 session.json
 *.tmp
+supervise.log

@@ -140,21 +140,26 @@ def load_done(out_dir):
 
 
 def load_index(index_dir):
-    """Read the compact index. The URL is rebuilt from group + slug."""
+    """Read the compact index as (group, slug) tuples.
+
+    Held as tuples, not dicts, and the URL is built per request rather than
+    stored: at 2.92M rows the dict-of-three-strings version cost 1.25GB
+    resident and ~28s to load, which is a lot to carry for weeks and to redo
+    every chunk. Interning the group (only ~18 distinct values) drops it
+    further.
+    """
     rows = []
     for p in sorted(glob.glob(os.path.join(index_dir, "urls_*.tsv.gz"))):
         with gzip.open(p, "rt", encoding="utf-8") as f:
             for line in f:
                 parts = line.rstrip("\n").split("\t")
-                if len(parts) != 2:
-                    continue
-                group, slug = parts
-                rows.append({
-                    "group": group,
-                    "slug": slug,
-                    "url": f"https://cults3d.com/en/3d-model/{group}/{slug}",
-                })
+                if len(parts) == 2:
+                    rows.append((sys.intern(parts[0]), parts[1]))
     return rows
+
+
+def model_url(group, slug):
+    return f"https://cults3d.com/en/3d-model/{group}/{slug}"
 
 
 def main():
@@ -188,7 +193,7 @@ def main():
         sys.exit(f"no url index found in {args.index}/ - run build_url_index.py first")
     mine = urls[i - 1::n]
     done = load_done(args.out)
-    todo = [u for u in mine if u["slug"] not in done]
+    todo = [u for u in mine if u[1] not in done]
     if args.limit:
         todo = todo[:args.limit]
 
@@ -226,7 +231,7 @@ def main():
             last_resolve[0] = time.time()
             stats["resolves"] += 1
 
-    def fetch(item):
+    def fetch(url):
         """One model, with the right response to each failure mode.
 
         Measured on 2026-09-22: 8 concurrent requests is clean, 16 earns HTTP
@@ -236,7 +241,7 @@ def main():
         """
         for attempt in range(4):
             throttle.wait()
-            r = session.get(item["url"], timeout=30)
+            r = session.get(url, timeout=30)
 
             if r.status_code == 200 and "Just a moment" not in r.text[:2000]:
                 throttle.ok()
@@ -257,15 +262,16 @@ def main():
     def work(item):
         if stop.is_set():
             return
+        group, slug = item
+        url = model_url(group, slug)
         time.sleep(random.uniform(args.delay * 0.5, args.delay * 1.5))
         try:
-            r = fetch(item)
+            r = fetch(url)
             if r is None:
                 with lock:
                     stats["fail"] += 1
                 return
-            row = parse_model(r.text, item["url"])
-            row["lastmod"] = item.get("lastmod")
+            row = parse_model(r.text, url)
             row["scraped_at"] = time.strftime("%Y-%m-%dT%H:%M:%S")
             writer.write(row)
             with lock:
