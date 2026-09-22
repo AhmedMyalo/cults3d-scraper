@@ -1,0 +1,67 @@
+{
+  "years": 3,
+  "since": "2023-09-23T23:15:23+00:00",
+  "categories": [
+    {
+      "slug": "art",
+      "name": "Art",
+      "recent": 763741,
+      "recent_paid": 693954
+    },
+    {
+      "slug": "fashion",
+      "name": "Fashion",
+      "recent": 62916,
+      "recent_paid": 56615
+    },
+    {
+      "slug": "jewelry",
+      "name": "Jewelry",
+      "recent": 162356,
+      "recent_paid": 146222
+    },
+    {
+      "slug": "home",
+      "name": "Home",
+      "recent": 420704,
+      "recent_paid": 361663
+    },
+    {
+      "slug": "architecture",
+      "name": "Architecture",
+      "recent": 29808,
+      "recent_paid": 25628
+    },
+    {
+      "slug": "gadget",
+      "name": "Gadget",
+      "recent": 105674,
+      "recent_paid": 83135
+    },
+    {
+      "slug": "game",
+      "name": "Game",
+      "recent": 576006,
+      "recent_paid": 480432
+    },
+    {
+      "slug": "tool",
+      "name": "Tool",
+      "recent": 153058,
+      "recent_paid": 108532
+    },
+    {
+      "slug": "naughties",
+      "name": "Naughties",
+      "recent": 0,
+      "recent_paid": 0
+    },
+    {
+      "slug": "various",
+      "name": "Various",
+      "recent": 261176,
+      "recent_paid": 226260
+    }
+  ],
+  "requests_used": 23
+}

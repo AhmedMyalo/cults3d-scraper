@@ -1,0 +1,24 @@
+counting models published since 2023-09-23
+
+WHOLE SITE, last 3y : 2,540,073 total | 2,187,057 paid
+
+10 categories
+
+category                           last 3y      paid  paid %
+------------------------------------------------------------
+art                                763,741   693,954     91%
+fashion                             62,916    56,615     90%
+jewelry                            162,356   146,222     90%
+home                               420,704   361,663     86%
+architecture                        29,808    25,628     86%
+gadget                             105,674    83,135     79%
+game                               576,006   480,432     83%
+tool                               153,058   108,532     71%
+naughties                                0         0      0%
+various                            261,176   226,260     87%
+
+[summary] 10 categories counted, 23 requests
+   sum across categories : 2,535,439 recent | 2,182,441 paid
+   (a model in several categories is counted more than once)
+   all recent           ->  25,355 requests ->  50.7 days at 500/day
+   recent + paid only   ->  21,825 requests ->  43.6 days at 500/day
