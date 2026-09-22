@@ -1,9 +1,9 @@
 {
-  "when": "2026-09-21T23:54:41",
+  "when": "2026-09-22T00:04:28",
   "plain_requests": {
     "status": 403,
     "cf_mitigated": "challenge",
-    "cf_ray": "a3ecff183a7bcca4-ORD",
+    "cf_ray": "a3ed0d718cea6c97-SJC",
     "server": "cloudflare",
     "len": 5535,
     "title": "Just a moment...",
@@ -21,7 +21,7 @@
     {
       "t": 1,
       "title": "Just a moment...",
-      "turnstile_frames": 1,
+      "turnstile_frames": 0,
       "body": "cults3d.com\nPerforming security verification\n\nThis website uses a security service to protect against malicious bots. Th"
     },
     {
@@ -130,5 +130,5 @@
   "cleared_at": null,
   "cookies": [],
   "has_cf_clearance": false,
-  "final_body": "cults3d.com\nPerforming security verification\n\nThis website uses a security service to protect against malicious bots. This page is displayed while the website verifies you are not a bot.\n\nRay ID: a3ecff2d884e170f\nPerformance and Security by Cloudflare\nPrivacy"
+  "final_body": "cults3d.com\nPerforming security verification\n\nThis website uses a security service to protect against malicious bots. This page is displayed while the website verifies you are not a bot.\n\nRay ID: a3ed0dd6bb1c5f13\nPerformance and Security by Cloudflare\nPrivacy"
 }
