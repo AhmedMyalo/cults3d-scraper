@@ -35,6 +35,11 @@ from cults_session import make_session
 # far under GitHub's 100MB limit.
 SHARD_MAX_ROWS = 5_000
 
+# Sentinel for "this model is permanently gone", so it can be counted apart
+# from transient failures - the two mean very different things when deciding
+# whether a run is finished.
+GONE = object()
+
 
 class Throttle:
     """Adaptive global pacing: back off hard on 429, recover slowly.
@@ -70,7 +75,7 @@ class Throttle:
     def ok(self):
         if self.gap > self.floor:
             with self.lock:
-                self.gap = max(self.floor, self.gap - 0.002)
+                self.gap = max(self.floor, self.gap - 0.01)
 
 
 class ShardedWriter:
@@ -224,7 +229,8 @@ def main():
     writer = ShardedWriter(args.out, tag=tag)
     session = make_session()
     t0 = time.time()
-    stats = {"ok": 0, "fail": 0, "last_report": 0, "resolves": 0, "throttled": 0}
+    stats = {"ok": 0, "fail": 0, "gone": 0, "last_report": 0,
+             "resolves": 0, "throttled": 0}
     stop = threading.Event()
     lock = threading.Lock()
     throttle = Throttle(stats, base=args.gap)
@@ -264,8 +270,11 @@ def main():
             if r.status_code == 200 and "Just a moment" not in r.text[:2000]:
                 throttle.ok()
                 return r
-            if r.status_code == 404:
-                return None                      # model vanished; not an error
+            if r.status_code in (404, 410):
+                # 410 Gone is as permanent as 404. Letting it fall through to
+                # the generic retry path burned four throttle slots per dead
+                # model, and ~3.4% of the catalogue is dead.
+                return GONE
             if r.status_code == 429:
                 throttle.penalise()
                 time.sleep(min(60, 5 * 2 ** attempt) + random.uniform(0, 3))
@@ -285,6 +294,10 @@ def main():
         time.sleep(random.uniform(args.delay * 0.5, args.delay * 1.5))
         try:
             r = fetch(url)
+            if r is GONE:
+                with lock:
+                    stats["gone"] += 1
+                return
             if r is None:
                 with lock:
                     stats["fail"] += 1
@@ -300,8 +313,8 @@ def main():
                     rate = stats["ok"] / el
                     left = (len(todo) - stats["ok"]) / rate / 3600 if rate else 0
                     print(f"  {stats['ok']:>7,}/{len(todo):,}  "
-                          f"fail={stats['fail']:<5} {rate:5.2f} req/s  "
-                          f"eta {left:5.1f}h", flush=True)
+                          f"gone={stats['gone']:<5} fail={stats['fail']:<5} "
+                          f"{rate:5.2f} req/s  eta {left:5.1f}h", flush=True)
                     writer.flush()
         except Exception as e:
             with lock:

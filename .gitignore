@@ -6,3 +6,4 @@ session.json
 *.tmp
 supervise.log
 .supervisor-*.lock
+scrape.log

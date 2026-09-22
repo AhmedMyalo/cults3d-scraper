@@ -20,6 +20,10 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 CHUNK_SECONDS = 3600
 CHUNK_TIMEOUT = CHUNK_SECONDS + 900      # hard kill if a chunk wedges
 LOG = os.path.join(HERE, "supervise.log")
+# The scraper's own stdout streams here live. Capturing it in-memory and only
+# writing it when the chunk ended meant 429 backoffs and challenge re-solves
+# stayed invisible for up to an hour - useless for a run measured in weeks.
+CHUNK_LOG = os.path.join(HERE, "scrape.log")
 
 
 def log(msg):
@@ -84,19 +88,22 @@ def main():
         chunk += 1
         t0 = time.time()
         try:
-            p = subprocess.run(
-                [sys.executable, "cults_detail_scrape.py",
-                 "--shard", shard, "--max-seconds", str(CHUNK_SECONDS)],
-                cwd=HERE, timeout=CHUNK_TIMEOUT,
-                capture_output=True, text=True, encoding="utf-8", errors="replace")
-            tail = [l for l in (p.stdout or "").splitlines() if l.strip()][-2:]
+            with open(CHUNK_LOG, "a", encoding="utf-8") as out:
+                out.write(f"\n=== chunk {chunk} @ {time.strftime('%H:%M:%S')} ===\n")
+                out.flush()
+                p = subprocess.run(
+                    [sys.executable, "-u", "cults_detail_scrape.py",
+                     "--shard", shard, "--max-seconds", str(CHUNK_SECONDS)],
+                    cwd=HERE, timeout=CHUNK_TIMEOUT,
+                    stdout=out, stderr=subprocess.STDOUT)
+            with open(CHUNK_LOG, encoding="utf-8", errors="replace") as f:
+                produced = f.read()[-4000:]
+            tail = [l for l in produced.splitlines() if l.strip()][-2:]
             log(f"chunk {chunk} rc={p.returncode} {time.time()-t0:.0f}s")
             for l in tail:
                 log(f"  {l}")
-            if p.returncode != 0 and p.stderr:
-                log(f"  stderr: {p.stderr[-400:]}")
             # Scraper exits 0 with "nothing left" when the shard is finished.
-            if "nothing left" in (p.stdout or ""):
+            if "nothing left" in produced:
                 log("=== shard complete ===")
                 commit(f"shard {shard}: complete")
                 try:
