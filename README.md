@@ -57,11 +57,17 @@ Pushing past 2 req/s does not help; it just wastes requests:
 ### GitHub Actions does not work for this site
 
 Verified on a real runner (`diagnostics/ci_report.json`): Chrome launches fine
-under xvfb, the page loads, but **Cloudflare never issues `cf_clearance` to a
-GitHub runner's datacentre IP** — 90 seconds of "Performing security
-verification" and no cookie, where the same code on a residential IP clears in
-7 seconds. The response is `Cf-Mitigated: challenge`, not a block, so it is IP
-reputation rather than a ban.
+under xvfb, the page loads, but **`cf_clearance` is never issued** — 90 seconds
+of "Performing security verification" and an empty cookie jar, where the same
+code on the author's home machine clears in 7 seconds.
+
+**The cause is not established.** That test changed three things at once
+relative to the working setup — datacentre IP, `xvfb` virtual display instead
+of a real one, and Linux instead of Windows — and no attempt was made to
+isolate them. "Datacentre IP reputation" is the obvious guess and it may well
+be right, but a Linux/xvfb Chrome being fingerprinted as automated fits the
+same evidence. Anyone planning to rely on CI runners should isolate these
+before assuming the approach is dead.
 
 This is the key difference from the sibling project: AWS WAF did not care where
 the request came from, Cloudflare does. **The 20-runner fan-out is unavailable**,
