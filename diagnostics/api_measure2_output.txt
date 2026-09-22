@@ -1,0 +1,21 @@
+[1] CreationSortEnum values
+    ['BY_PUBLICATION', 'BY_DOWNLOADS', 'BY_LIKES', 'BY_PRICE', 'BY_SELECTION', 'BY_RELEVANCE']
+    using: BY_PUBLICATION
+
+[2] do comments / makes / collections expose a count?
+    comments         NON_NULL->LIST->NON_NULL
+    makes            NON_NULL->LIST->NON_NULL
+    collections      NON_NULL->LIST->NON_NULL
+    tags             NON_NULL->LIST->NON_NULL
+    illustrations    NON_NULL->LIST->NON_NULL
+
+[3] offset depth
+    offset=        0 -> ok
+    offset=   10,000 -> ok
+    offset=  100,000 -> ERROR: offset must be between 0 and 50000
+
+[4] rate-limit window
+    limit=60 remaining=53 reset=2026-09-22T12:54:00.678663Z
+    resets in 17s -> window looks like 60s
+
+[requests used] 7

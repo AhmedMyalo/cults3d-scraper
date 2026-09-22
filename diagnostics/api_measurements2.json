@@ -1,0 +1,58 @@
+{
+  "sort_values": [
+    "BY_PUBLICATION",
+    "BY_DOWNLOADS",
+    "BY_LIKES",
+    "BY_PRICE",
+    "BY_SELECTION",
+    "BY_RELEVANCE"
+  ],
+  "field_shapes": {
+    "blueprints": "NON_NULL->LIST->NON_NULL",
+    "category": "NON_NULL->OBJECT",
+    "collections": "NON_NULL->LIST->NON_NULL",
+    "comments": "NON_NULL->LIST->NON_NULL",
+    "creator": "NON_NULL->OBJECT",
+    "description": "NON_NULL->SCALAR",
+    "details": "NON_NULL->SCALAR",
+    "discount": "OBJECT",
+    "downloadsCount": "NON_NULL->SCALAR",
+    "featured": "NON_NULL->SCALAR",
+    "identifier": "NON_NULL->SCALAR",
+    "illustrationImageUrl": "SCALAR",
+    "illustrations": "NON_NULL->LIST->NON_NULL",
+    "license": "NON_NULL->OBJECT",
+    "likesCount": "NON_NULL->SCALAR",
+    "madeWithAi": "NON_NULL->SCALAR",
+    "makes": "NON_NULL->LIST->NON_NULL",
+    "metaTags": "NON_NULL->LIST->NON_NULL",
+    "name": "NON_NULL->SCALAR",
+    "openPriced": "NON_NULL->SCALAR",
+    "price": "OBJECT",
+    "publishedAt": "SCALAR",
+    "safe": "NON_NULL->SCALAR",
+    "shortUrl": "NON_NULL->SCALAR",
+    "slug": "NON_NULL->SCALAR",
+    "subCategories": "NON_NULL->LIST->NON_NULL",
+    "tags": "NON_NULL->LIST->NON_NULL",
+    "totalSalesAmount": "OBJECT",
+    "updatedAt": "SCALAR",
+    "url": "NON_NULL->SCALAR",
+    "usages": "NON_NULL->LIST->NON_NULL",
+    "videos": "NON_NULL->LIST->NON_NULL",
+    "viewsCount": "NON_NULL->SCALAR",
+    "visibility": "NON_NULL->ENUM"
+  },
+  "offset_depth": {
+    "0": "ok",
+    "10000": "ok",
+    "100000": "error: offset must be between 0 and 50000"
+  },
+  "rate_headers": {
+    "x-ratelimit-limit": "60",
+    "x-ratelimit-remaining": "53",
+    "x-ratelimit-reset": "2026-09-22T12:54:00.678663Z"
+  },
+  "seconds_to_reset": 17.313575,
+  "requests_used": 7
+}
