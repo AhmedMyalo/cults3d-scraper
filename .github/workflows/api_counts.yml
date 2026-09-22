@@ -1,0 +1,61 @@
+name: api-counts
+
+# Measures what the OFFICIAL Cults3D GraphQL API can deliver.
+#
+# Why it runs here rather than on the owner's machine:
+#   - his home IP is CrowdSec-blocked, so the whole domain is unreachable to him
+#   - the API is plain HTTP + Basic Auth, so it needs no browser, which sidesteps
+#     every fingerprint problem that killed the scraping approach on CI
+#   - runner IPs were never blocked, only challenged, and a challenge does not
+#     apply to an authenticated API path
+#
+# The key lives in GitHub Secrets: never in the repo, never on his machine.
+# Spends ~6 of the ~500 daily requests and stops dead on 429/403.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: pip install -q requests
+
+      - name: Probe the API
+        env:
+          CULTS_USER: ${{ secrets.CULTS_USER }}
+          CULTS_KEY: ${{ secrets.CULTS_KEY }}
+        run: |
+          if [ -z "$CULTS_USER" ] || [ -z "$CULTS_KEY" ]; then
+            echo "::error::CULTS_USER / CULTS_KEY secrets are not set"
+            exit 1
+          fi
+          mkdir -p diagnostics
+          set -o pipefail
+          python api_counts.py --years 3 2>&1 | tee diagnostics/api_counts_log.txt
+
+      - name: Publish findings
+        if: always()
+        run: |
+          git config user.name  "cults3d-scraper"
+          git config user.email "scraper@users.noreply.github.com"
+          # Only the schema and the printed summary - no model data, and
+          # nothing that could contain the key.
+          git add -f diagnostics/category_counts.json diagnostics/api_counts_log.txt 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "nothing produced"
+          else
+            git commit -q -m "category counts [skip ci]"
+            git pull --rebase -q origin main || true
+            git push -q origin HEAD:main && echo "published"
+          fi
