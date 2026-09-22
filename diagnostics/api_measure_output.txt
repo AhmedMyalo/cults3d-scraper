@@ -1,0 +1,69 @@
+[1] fields available on a Creation
+    34 fields:
+      blueprints                   ?
+      category                     Category
+      collections                  ?
+      comments                     ?
+      creator                      User
+      description                  String
+      details                      String
+      discount                     Discount
+      downloadsCount               Int
+      featured                     Boolean
+      identifier                   ID
+      illustrationImageUrl         String
+      illustrations                ?
+      license                      License
+      likesCount                   Int
+      madeWithAi                   Boolean
+      makes                        ?
+      metaTags                     ?
+      name                         String
+      openPriced                   Boolean
+      price                        Money
+      publishedAt                  ISO8601DateTime
+      safe                         Boolean
+      shortUrl                     String
+      slug                         String
+      subCategories                ?
+      tags                         ?
+      totalSalesAmount             Money
+      updatedAt                    ISO8601DateTime
+      url                          String
+      usages                       ?
+      videos                       ?
+      viewsCount                   Int
+      visibility                   CreationVisibilityEnum
+
+    engagement / key fields:
+      YES  viewsCount
+       -   views
+      YES  likesCount
+      YES  downloadsCount
+       -   commentsCount
+       -   makesCount
+       -   collectionsCount
+      YES  price
+      YES  name
+      YES  slug
+      YES  tags
+       -   categories
+      YES  creator
+      YES  publishedAt
+       -   createdAt
+      YES  illustrations
+      YES  license
+      YES  identifier
+       -   id
+      YES  description
+       -   totalDownloads
+
+[2] rate-limit headers on a normal request
+    {'x-ratelimit-limit': '60', 'x-ratelimit-remaining': '58', 'x-ratelimit-reset': '2026-09-22T12:50:00.401011Z'}
+    site reports total creations = 3,599,419
+
+[3] offset depth (the CGTrader row-cap question)
+    offset=        0 -> ERROR: Argument 'sort' on Field 'creationsBatch' has an invalid value (BY_PUBLISHED_AT). Expected
+
+[requests used] 3
+[saved] diagnostics/api_measurements.json
