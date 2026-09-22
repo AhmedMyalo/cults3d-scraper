@@ -1,0 +1,26 @@
+[1] introspecting the root query type...
+    10 root queries available:
+
+      categories(safe)
+      category(slugEn)
+      contestsBatch(limit, offset)
+      creation(slug)
+      creationsBatch(selected, safe, madeWithAi, onlyFree, onlyPriced, onlyDiscounted, onlyCommercial, categorySlugEn, submittedAfter, submittedBefore, licenseCodes, usages, ids, sort, direction, limit, offset)
+      creationsSearchBatch(query, madeWithAi, onlySafe, onlyFree, onlyPriced, onlyCommercial, onlyDiscounted, onlyFeatured, onlyTags, onlyName, categoryIds, creatorNick, usages, submittedAfter, submittedBefore, sort, direction, limit, offset)
+      licenses()
+      myself()
+      user(nick)
+      users(sort, direction, limit, offset)
+
+    [saved] diagnostics/api_schema.json
+
+[2] probing page size (stops at the first refusal)...
+    limit=10   -> returned 10
+    limit=50   -> returned 50
+    limit=100  -> returned 100
+  [limit=200] errors: [{"message": "limit must be between 1 and 100", "locations": [{"line": 3, "column": 3}], "path": ["creations"]}]
+    limit=200  -> rejected (see errors above)
+
+[requests used] 5 of the ~500/day budget
+[max per request] 100
+[throughput]      50,000/day -> 57 days for the remaining 2,872,393
