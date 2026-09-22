@@ -73,9 +73,15 @@ class Throttle:
             print(f"  [429] backing off -> {self.gap:.2f}s/request", flush=True)
 
     def ok(self):
+        # Decay geometrically, not by a fixed step. The penalty is
+        # multiplicative, so a bad patch can push the gap to the 8s ceiling -
+        # and backing off 0.01 per success would then need ~750 successes to
+        # get home, which at 0.125 req/s is over an hour of crawling. x0.97
+        # recovers from the ceiling in ~90 successes while still being far
+        # slower to speed up than to slow down.
         if self.gap > self.floor:
             with self.lock:
-                self.gap = max(self.floor, self.gap - 0.01)
+                self.gap = max(self.floor, self.gap * 0.97)
 
 
 class ShardedWriter:
