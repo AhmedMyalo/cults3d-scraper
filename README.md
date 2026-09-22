@@ -42,8 +42,31 @@ Sustained 100-second windows against one IP:
 
 A single IP sustains **~2 req/s** regardless of thread count. Short bursts hit
 15 req/s, which is misleading — that is a leaky bucket refilling, plus CDN
-cache hits on repeated URLs. **Throughput comes from more IPs (runners), never
-from more threads.**
+cache hits on repeated URLs.
+
+Pushing past 2 req/s does not help; it just wastes requests:
+
+| target | achieved | 429s |
+| --- | --- | --- |
+| 2.5 req/s | 1.98 | 20% |
+| 3.0 req/s | 2.25 | 25% |
+| 3.3 req/s | 2.08 | 38% |
+
+**~2 req/s is a hard ceiling per IP.**
+
+### GitHub Actions does not work for this site
+
+Verified on a real runner (`diagnostics/ci_report.json`): Chrome launches fine
+under xvfb, the page loads, but **Cloudflare never issues `cf_clearance` to a
+GitHub runner's datacentre IP** — 90 seconds of "Performing security
+verification" and no cookie, where the same code on a residential IP clears in
+7 seconds. The response is `Cf-Mitigated: challenge`, not a block, so it is IP
+reputation rather than a ban.
+
+This is the key difference from the sibling project: AWS WAF did not care where
+the request came from, Cloudflare does. **The 20-runner fan-out is unavailable**,
+and the crawl is limited to whatever residential IPs are on hand — about
+**17 days of continuous running** for 2.92M models from one.
 
 ### Catalogue enumeration
 
