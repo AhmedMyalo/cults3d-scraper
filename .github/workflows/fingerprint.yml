@@ -38,20 +38,37 @@ jobs:
           pip install -q patchright
           sudo apt-get update -qq
           sudo apt-get install -y -qq xvfb
-          echo "chrome: $(google-chrome --version 2>&1 || echo MISSING)"
-          echo "cpus  : $(nproc)"
+          # A bare runner resolves 4 of 15 common fonts; a real desktop does
+          # 13. Font coverage is cheap for a detector to measure, so install
+          # the families a Windows/desktop browser would actually have.
+          echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" \
+            | sudo debconf-set-selections
+          sudo apt-get install -y -qq \
+            fonts-liberation fonts-liberation2 fonts-dejavu fonts-dejavu-extra \
+            fonts-noto-core fonts-noto-color-emoji fonts-freefont-ttf \
+            ttf-mscorefonts-installer || true
+          sudo fc-cache -f >/dev/null 2>&1 || true
+          echo "chrome    : $(google-chrome --version 2>&1 || echo MISSING)"
+          echo "cpus      : $(nproc)"
+          echo "fonts     : $(fc-list | wc -l) installed"
 
-      - name: Fingerprint under xvfb
+      - name: Fingerprint under xvfb (with GPU fallback + fonts)
         run: |
           xvfb-run -a --server-args="-screen 0 1536x960x24" \
             python fingerprint.py diagnostics/fp_ci_xvfb.json
+
+      - name: Fingerprint WITHOUT the gpu flags, for comparison
+        run: |
+          rm -rf fp_profile
+          CHROME_GL_ARGS="" xvfb-run -a --server-args="-screen 0 1536x960x24" \
+            python fingerprint.py diagnostics/fp_ci_nogl.json
 
       - name: Publish result
         if: always()
         run: |
           git config user.name  "cults3d-scraper"
           git config user.email "scraper@users.noreply.github.com"
-          git add -f diagnostics/fp_ci_xvfb.json 2>/dev/null || true
+          git add -f diagnostics/fp_ci_*.json 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "nothing produced"
           else

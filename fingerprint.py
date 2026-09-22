@@ -94,12 +94,27 @@ PROBE = r"""
 
 def main():
     dest = sys.argv[1] if len(sys.argv) > 1 else "fingerprint.json"
+
+    # patchright's advice is to pass no custom args, because several of the
+    # usual ones are themselves detectable. These are GPU-only: without them a
+    # GPU-less runner has no WebGL at all and the probe throws, which is a
+    # louder signal than software rendering would be. Set CHROME_GL_ARGS empty
+    # to measure the unmodified baseline.
+    import os
+    default_gl = ("--use-gl=angle --use-angle=swiftshader "
+                  "--enable-unsafe-swiftshader --ignore-gpu-blocklist")
+    raw = os.environ.get("CHROME_GL_ARGS", default_gl)
+    args = [a for a in raw.split() if a]
+    if args:
+        print(f"[chrome args] {' '.join(args)}")
+
     with sync_playwright() as p:
         ctx = p.chromium.launch_persistent_context(
             user_data_dir="fp_profile",
             channel="chrome",
             headless=False,
             no_viewport=True,
+            args=args,
         )
         page = ctx.pages[0] if ctx.pages else ctx.new_page()
         page.goto("about:blank")          # no network, deliberately
