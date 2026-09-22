@@ -1,0 +1,13 @@
+{
+  "url": "https://cults3d.com/en",
+  "when": "2026-09-22T11:45:17",
+  "requests_made": 1,
+  "initial_status": 403,
+  "initial_cf_mitigated": "challenge",
+  "verdict": "NEVER_CLEARED",
+  "cleared_after_s": null,
+  "final_title": "Just a moment...",
+  "final_body": "cults3d.com\nPerforming security verification\n\nThis website uses a security service to protect against malicious bots. This page is displayed while the website verifies you are not a bot.\n\nRay ID: a3f110535dedda5c\nPerformance and Security by Cloudflare\nPrivacy",
+  "cookies": [],
+  "has_cf_clearance": false
+}
