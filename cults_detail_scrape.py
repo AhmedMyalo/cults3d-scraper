@@ -13,6 +13,7 @@ proved it under 8-way parallelism:
 import argparse
 import glob
 import gzip
+import itertools
 import json
 import os
 import random
@@ -311,9 +312,26 @@ def main():
         if args.max_seconds and time.time() - t0 > args.max_seconds:
             stop.set()
 
+    # Workers PULL from a shared cursor rather than ThreadPoolExecutor.map().
+    # map() submits every item up front: at 2.92M models that is 2.92M Future
+    # objects created before the first fetch, which is what drove each scraper
+    # process to ~5GB resident. Pulling keeps it flat regardless of catalogue
+    # size, and makes --max-seconds stop immediately instead of unwinding
+    # millions of queued futures.
+    cursor = itertools.count()
+    cursor_lock = threading.Lock()
+
+    def pump():
+        while not stop.is_set():
+            with cursor_lock:
+                k = next(cursor)
+            if k >= len(todo):
+                return
+            work(todo[k])
+
     try:
         with ThreadPoolExecutor(max_workers=args.workers) as ex:
-            list(ex.map(work, todo))
+            list(ex.map(lambda _: pump(), range(args.workers)))
     except KeyboardInterrupt:
         stop.set()
         print("\n[interrupted] flushing...")

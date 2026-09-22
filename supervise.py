@@ -45,10 +45,41 @@ def commit(msg):
         log(f"  commit failed: {type(e).__name__}: {e}")
 
 
+def acquire_singleton(shard):
+    """Refuse to start if a supervisor for this shard is already running.
+
+    Three supervisors once stacked up unnoticed because a kill targeted the
+    wrong image name. They all took shard 1/1, so they duplicated each other's
+    work AND put three times the intended request rate on one IP - the exact
+    thing that is supposed to never happen here.
+    """
+    lock_path = os.path.join(HERE, f".supervisor-{shard.replace('/', 'of')}.lock")
+    if os.path.exists(lock_path):
+        try:
+            with open(lock_path, encoding="utf-8") as f:
+                old = int(f.read().strip())
+        except (ValueError, OSError):
+            old = None
+        if old and _pid_alive(old):
+            log(f"refusing to start: supervisor pid {old} already owns shard {shard}")
+            sys.exit(1)
+        log(f"clearing stale lock (pid {old} is gone)")
+    with open(lock_path, "w", encoding="utf-8") as f:
+        f.write(str(os.getpid()))
+    return lock_path
+
+
+def _pid_alive(pid):
+    out = subprocess.run(["tasklist", "/FI", f"PID eq {pid}", "/FO", "CSV"],
+                         capture_output=True, text=True).stdout
+    return str(pid) in out
+
+
 def main():
     shard = sys.argv[1] if len(sys.argv) > 1 else "1/1"
+    lock_path = acquire_singleton(shard)
     chunk = 0
-    log(f"=== supervisor start, shard {shard} ===")
+    log(f"=== supervisor start, shard {shard} (pid {os.getpid()}) ===")
     while True:
         chunk += 1
         t0 = time.time()
@@ -68,6 +99,10 @@ def main():
             if "nothing left" in (p.stdout or ""):
                 log("=== shard complete ===")
                 commit(f"shard {shard}: complete")
+                try:
+                    os.remove(lock_path)
+                except OSError:
+                    pass
                 return
         except subprocess.TimeoutExpired:
             log(f"chunk {chunk} WEDGED past {CHUNK_TIMEOUT}s - killed, restarting")

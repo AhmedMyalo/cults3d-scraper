@@ -5,3 +5,4 @@ chrome_profile_hl/
 session.json
 *.tmp
 supervise.log
+.supervisor-*.lock
