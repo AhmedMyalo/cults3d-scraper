@@ -169,12 +169,27 @@ def parse_model(html, url=None):
     if fmt:
         summary = fmt.find("summary")
         label = summary.get_text(" ", strip=True) if summary else ""
-        m = re.search(r"(\d+)\s*files?\s*\(([^)]*)\)", label)
+        # The format in parentheses is optional: plenty of models render just
+        # "2 files". Requiring the parentheses dropped the count entirely on
+        # ~7% of models.
+        m = re.search(r"(\d+)\s*files?(?:\s*\(([^)]*)\))?", label)
         if m:
             row["file_count"] = int(m.group(1))
-            row["file_format"] = m.group(2).strip()   # more precise than LD+JSON
-        row["file_names"] = [li.get_text(" ", strip=True)
-                             for li in fmt.select("ul.list--bullet li")]
+            if m.group(2):
+                row["file_format"] = m.group(2).strip()  # beats LD+JSON
+        # Each <li> is "<span>name</span><span>23.0 x 53.5 mm</span>"; take
+        # only the first span or every filename carries its dimensions.
+        names = []
+        for li in fmt.select("ul.list--bullet li"):
+            first = li.find("span")
+            names.append((first or li).get_text(" ", strip=True))
+        row["file_names"] = names
+        # Fall back to the actual extensions when neither the label nor
+        # LD+JSON gave a format.
+        if not row.get("file_format") and names:
+            exts = sorted({n.rsplit(".", 1)[-1].upper()
+                           for n in names if "." in n})
+            row["file_format"] = " and ".join(exts) if exts else None
 
     # --- designer's own totals ------------------------------------------
     for k in ("author_designs", "author_downloads", "author_followers",
