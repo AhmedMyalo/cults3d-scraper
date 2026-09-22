@@ -7,3 +7,4 @@ session.json
 supervise.log
 .supervisor-*.lock
 scrape.log
+fp_profile/

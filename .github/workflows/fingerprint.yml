@@ -1,0 +1,61 @@
+name: fingerprint
+
+# DIAGNOSTIC ONLY - this workflow does NOT scrape anything.
+#
+# It opens Chrome under xvfb on the runner, navigates to about:blank, and reads
+# the browser's own automation signals. There is NO request to cults3d.com and
+# no request to any third-party site; the only network traffic is GitHub's own
+# package installs.
+#
+# Why it exists: the earlier CI attempt failed with three variables changed at
+# once (datacentre IP, xvfb display, Linux). This captures the same fingerprint
+# the working Windows machine produced, so the two can be diffed and the actual
+# cause identified instead of guessed.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "fingerprint.py"
+      - ".github/workflows/fingerprint.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fingerprint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: |
+          pip install -q patchright
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq xvfb
+          echo "chrome: $(google-chrome --version 2>&1 || echo MISSING)"
+          echo "cpus  : $(nproc)"
+
+      - name: Fingerprint under xvfb
+        run: |
+          xvfb-run -a --server-args="-screen 0 1536x960x24" \
+            python fingerprint.py diagnostics/fp_ci_xvfb.json
+
+      - name: Publish result
+        if: always()
+        run: |
+          git config user.name  "cults3d-scraper"
+          git config user.email "scraper@users.noreply.github.com"
+          git add -f diagnostics/fp_ci_xvfb.json 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "nothing produced"
+          else
+            git commit -q -m "ci fingerprint under xvfb [skip ci]"
+            git pull --rebase -q origin main || true
+            git push -q origin HEAD:main && echo "published"
+          fi
