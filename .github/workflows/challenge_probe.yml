@@ -1,0 +1,56 @@
+name: challenge-probe
+
+# ONE request to cults3d.com, from a GitHub runner IP, to settle whether the
+# repaired browser fingerprint can clear the Cloudflare challenge.
+#
+# Scrapes nothing. Loads the homepage once, waits for a verdict, records it,
+# exits. Run only on explicit dispatch - never on push, never on a schedule.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install (same environment the fingerprint was repaired in)
+        run: |
+          pip install -q patchright
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq xvfb
+          echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" \
+            | sudo debconf-set-selections
+          sudo apt-get install -y -qq \
+            fonts-liberation fonts-liberation2 fonts-dejavu fonts-dejavu-extra \
+            fonts-noto-core fonts-noto-color-emoji fonts-freefont-ttf \
+            ttf-mscorefonts-installer || true
+          sudo fc-cache -f >/dev/null 2>&1 || true
+          echo "runner ip: $(curl -s --max-time 10 https://api.ipify.org || echo unknown)"
+
+      - name: One request
+        run: |
+          xvfb-run -a --server-args="-screen 0 1536x960x24" \
+            python challenge_probe.py
+
+      - name: Publish verdict
+        if: always()
+        run: |
+          git config user.name  "cults3d-scraper"
+          git config user.email "scraper@users.noreply.github.com"
+          git add -f diagnostics/ci_challenge_probe.json 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "nothing produced"
+          else
+            git commit -q -m "ci challenge probe result [skip ci]"
+            git pull --rebase -q origin main || true
+            git push -q origin HEAD:main && echo "published"
+          fi
