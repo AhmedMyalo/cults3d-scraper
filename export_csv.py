@@ -30,8 +30,10 @@ COLUMNS = [
     # The designer's own totals, as shown on the model page. Like views,
     # these are rendered rounded ("1k designs", "13.1k downloads").
     "author_designs", "author_downloads", "author_followers", "author_sales",
+    "author_is_certified", "author_seller_badge",
     "license_url", "published_at",
-    "description", "image", "scraped_at",
+    "description", "printing_settings", "is_auto_translated",
+    "image", "scraped_at",
 ]
 
 

@@ -127,16 +127,40 @@ def parse_model(html, url=None):
     row["author"] = creator.get("name")
     row["author_url"] = creator.get("url")
 
-    # --- categories (breadcrumb only) + tags -----------------------------
-    cats = []
+    # --- the tabbed panels, keyed by their heading -----------------------
+    # Headings seen: "3D model description", "3D printing settings",
+    # "Categories", "Tags", plus a Cults promo block that must be ignored.
+    sections = {}
     for sec in soup.select("div.creation-page__tab-section"):
         h = sec.find(["h2", "h3"])
-        if h and h.get_text(strip=True).lower().startswith("categor"):
-            for a in sec.select('a[href*="/categories/"]'):
-                slug = a["href"].rstrip("/").rsplit("/", 1)[-1]
-                if slug != "categories":
-                    cats.append(slug)
-            break
+        if h:
+            sections[h.get_text(" ", strip=True).strip().lower()] = sec
+
+    def section_body(sec, heading):
+        """Section text with its own heading removed."""
+        txt = sec.get_text("\n", strip=True)
+        if txt.lower().startswith(heading.lower()):
+            txt = txt[len(heading):].strip()
+        return txt or None
+
+    settings = sections.get("3d printing settings")
+    row["printing_settings"] = (section_body(settings, "3D printing settings")
+                                if settings else None)
+
+    # Cults machine-translates descriptions; a translated page carries a
+    # notice and a link to the original. Worth flagging, because it means the
+    # description text is not necessarily the designer's own words.
+    row["is_auto_translated"] = bool(
+        re.search(r"translated by automatic translation", html, re.I))
+
+    # --- categories (breadcrumb only) + tags -----------------------------
+    cats = []
+    catsec = sections.get("categories")
+    if catsec:
+        for a in catsec.select('a[href*="/categories/"]'):
+            slug = a["href"].rstrip("/").rsplit("/", 1)[-1]
+            if slug != "categories":
+                cats.append(slug)
     row["categories"] = cats
 
     row["tags"] = [a["href"].rstrip("/").rsplit("/", 1)[-1]
@@ -190,6 +214,17 @@ def parse_model(html, url=None):
             exts = sorted({n.rsplit(".", 1)[-1].upper()
                            for n in names if "." in n})
             row["file_format"] = " and ".join(exts) if exts else None
+
+    # --- designer standing ----------------------------------------------
+    # Both are useful market signals: whether Cults has verified the account,
+    # and the seller tier badge (seller_1..N) it awards established sellers.
+    row["author_is_certified"] = bool(
+        soup.select_one('a[href*="certified-account"]'))
+    badge = soup.select_one('img[src*="badges/seller"]')
+    row["author_seller_badge"] = None
+    if badge:
+        m = re.search(r"seller_(\d+)", badge.get("src", ""))
+        row["author_seller_badge"] = int(m.group(1)) if m else None
 
     # --- designer's own totals ------------------------------------------
     for k in ("author_designs", "author_downloads", "author_followers",
