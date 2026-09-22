@@ -45,6 +45,41 @@ def _num(text):
     return int(val)
 
 
+def _money(text):
+    """'Lei 34,883' -> (34883.0, 'Lei'); '$1.30' -> (1.3, '$').
+
+    Sales totals are rendered in the currency of whichever IP is scraping
+    (a Romanian IP yields Lei), so the symbol has to travel with the number.
+    The figure is only comparable across rows because every row is scraped
+    from the same machine - converting needs one FX rate applied at the end.
+    """
+    if not text:
+        return None, None
+    t = text.strip()
+    for sp in (" ", " "):
+        t = t.replace(sp, " ")
+    m = re.search(r"(\d[\d.,]*)\s*([kKmM]?)", t)
+    if not m:
+        return None, None
+    cur = (t[:m.start()].strip() or t[m.end():].strip() or None)
+    raw = m.group(1)
+    # A trailing ",dd" is a decimal comma; otherwise commas group thousands.
+    if re.search(r",\d{1,2}$", raw) and "." not in raw:
+        raw = raw.replace(",", ".")
+    else:
+        raw = raw.replace(",", "")
+    try:
+        val = float(raw)
+    except ValueError:
+        return None, None
+    suf = m.group(2).lower()
+    if suf == "k":
+        val *= 1_000
+    elif suf == "m":
+        val *= 1_000_000
+    return val, cur
+
+
 def _ld_json(soup):
     for s in soup.select('script[type="application/ld+json"]'):
         try:
@@ -228,7 +263,7 @@ def parse_model(html, url=None):
 
     # --- designer's own totals ------------------------------------------
     for k in ("author_designs", "author_downloads", "author_followers",
-              "author_sales"):
+              "author_sales", "author_sales_currency"):
         row[k] = None
     stats = soup.select_one("ul.list--statistics")
     if stats:
@@ -245,6 +280,8 @@ def parse_model(html, url=None):
             elif "follower" in label:
                 row["author_followers"] = value
             elif "sale" in label:
-                row["author_sales"] = value
+                # "Lei 34,883 Sales" - _num cannot see past the currency.
+                row["author_sales"], row["author_sales_currency"] = _money(
+                    cnt.get_text(strip=True))
 
     return row

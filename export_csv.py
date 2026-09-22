@@ -29,7 +29,8 @@ COLUMNS = [
     "license", "is_no_ai", "usages",
     # The designer's own totals, as shown on the model page. Like views,
     # these are rendered rounded ("1k designs", "13.1k downloads").
-    "author_designs", "author_downloads", "author_followers", "author_sales",
+    "author_designs", "author_downloads", "author_followers",
+    "author_sales", "author_sales_currency",
     "author_is_certified", "author_seller_badge",
     "license_url", "published_at",
     "description", "printing_settings", "is_auto_translated",
