@@ -1,0 +1,9 @@
+[skip] 76,193 slugs already held from earlier phases
+
+[art] target 30,000, resuming at offset 0
+
+[STOPPED] GraphQL errors: [{"message": "Field 'id' doesn't exist on type 'Comment'", "locations": [{"line": 1, "column": 480}], "path": ["query", "creationsBatch", "results", "comments", "id"], "extensions": {"code": "undefinedField", "typeName": "Comment", "fieldName": "id"}}]
+[STOPPED] Not retrying - this is the daily cap, resume tomorrow.
+
+[done] +0 new | 0 already held | 1 requests | 0.0 min
+[progress] 265,628 model-slots still to go
