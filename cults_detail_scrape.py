@@ -183,6 +183,10 @@ def main():
     ap.add_argument("--max-seconds", type=int, default=0,
                     help="stop cleanly after N seconds (for CI chunking)")
     ap.add_argument("--limit", type=int, default=0)
+    ap.add_argument("--no-shuffle", dest="shuffle", action="store_false",
+                    help="scrape in sitemap order (oldest designs first)")
+    ap.add_argument("--seed", type=int, default=20260922,
+                    help="shuffle seed; must not change mid-run")
     args = ap.parse_args()
 
     i, n = (int(x) for x in args.shard.split("/"))
@@ -191,6 +195,19 @@ def main():
     urls = load_index(args.index)
     if not urls:
         sys.exit(f"no url index found in {args.index}/ - run build_url_index.py first")
+
+    if args.shuffle:
+        # The sitemaps are ordered oldest-design-first, so scraping in place
+        # means that for the whole multi-week run the data on disk is nothing
+        # but the oldest models - useless for looking at partway through.
+        # Shuffling makes any prefix a representative sample of the catalogue.
+        #
+        # The seed is FIXED and the shuffle happens before sharding, so the
+        # order is identical on every restart and across machines. That is what
+        # keeps resume correct and keeps --shard slices disjoint; a random seed
+        # here would silently re-scrape and leave gaps.
+        random.Random(args.seed).shuffle(urls)
+
     mine = urls[i - 1::n]
     done = load_done(args.out)
     todo = [u for u in mine if u[1] not in done]
