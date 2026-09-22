@@ -61,13 +61,36 @@ under xvfb, the page loads, but **`cf_clearance` is never issued** — 90 second
 of "Performing security verification" and an empty cookie jar, where the same
 code on the author's home machine clears in 7 seconds.
 
-**The cause is not established.** That test changed three things at once
-relative to the working setup — datacentre IP, `xvfb` virtual display instead
-of a real one, and Linux instead of Windows — and no attempt was made to
-isolate them. "Datacentre IP reputation" is the obvious guess and it may well
-be right, but a Linux/xvfb Chrome being fingerprinted as automated fits the
-same evidence. Anyone planning to rely on CI runners should isolate these
-before assuming the approach is dead.
+This was then investigated properly instead of guessed at.
+
+A network-free fingerprint probe (`fingerprint.py`, runs on `about:blank`) was
+captured on both machines and diffed. The runner failed on two signals a
+detector can act on alone:
+
+| signal | working machine | CI runner |
+| --- | --- | --- |
+| `webgl_renderer` | `ANGLE (AMD Radeon 780M, D3D11)` | **threw `TypeError`** — no WebGL at all |
+| `font_count` | 13/15 | 4/15 before fonts were installed |
+
+`navigator.webdriver` was `false` on both, so patchright was doing its job —
+the environment was the problem, not the stealth layer.
+
+Both were then repaired: desktop font packages installed, and GPU flags added
+so Chrome falls back to SwiftShader rather than having no WebGL
+(`--use-gl=angle --use-angle=swiftshader --enable-unsafe-swiftshader`). Fonts
+reached 9/15, which is normal for Linux — the probe list is Windows-biased, so
+9/15 is what a real Linux desktop scores.
+
+**It still did not clear.** A single probe from a repaired runner
+(`diagnostics/ci_challenge_probe.json`) sat on "Performing security
+verification" for 60s with an empty cookie jar.
+
+So CI is a dead end, and now on evidence rather than assumption. Two candidate
+causes remain and were not separated further, because **neither is fixable on
+free CI**: datacentre IP reputation, and the `SwiftShader` renderer string,
+which itself marks a machine with no GPU. Note the response is
+`Cf-Mitigated: challenge`, not a block — runner IPs are not banned, they simply
+cannot pass.
 
 This is the key difference from the sibling project: AWS WAF did not care where
 the request came from, Cloudflare does. **The 20-runner fan-out is unavailable**,
