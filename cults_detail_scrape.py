@@ -257,6 +257,13 @@ def main():
             print("  [challenge] re-solving in browser...", flush=True)
             fresh = make_session(force=True)
             session.headers.update(fresh.headers)
+            # REPLACE the jar, never update it. The cached cookies go in
+            # domain-less while a browser export carries ".cults3d.com", so
+            # update() kept both copies of cf_clearance and requests sent them
+            # together. Cloudflare saw a conflicting clearance, re-challenged,
+            # and the next re-solve added a third - a loop that cost ~10
+            # browser launches an hour and about 6% of throughput.
+            session.cookies.clear()
             session.cookies.update(fresh.cookies)
             last_resolve[0] = time.time()
             stats["resolves"] += 1

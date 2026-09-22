@@ -94,6 +94,10 @@ def get(session, url, retries=3, **kw):
         if r.headers.get("Cf-Mitigated") == "challenge" or r.status_code == 403:
             fresh = make_session(force=True)
             session.headers.update(fresh.headers)
+            # Clear first: update() alone leaves the stale cf_clearance beside
+            # the new one (they differ in domain scope), and sending both makes
+            # Cloudflare re-challenge on the very next request.
+            session.cookies.clear()
             session.cookies.update(fresh.cookies)
             continue
         if r.status_code in (429, 500, 502, 503, 504):

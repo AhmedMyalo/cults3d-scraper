@@ -1,0 +1,447 @@
+
+=== chunk 1 @ 04:09:54 ===
+[shard 1/1] index=2,922,332 mine=2,922,332 done=2,982 todo=2,919,350
+      200/2,919,350  fail=34     0.81 req/s  eta 1001.3h
+      400/2,919,350  fail=36     1.14 req/s  eta 711.1h
+  [429] backing off -> 1.00s/request
+      600/2,919,350  fail=38     1.23 req/s  eta 659.6h
+      800/2,919,350  fail=41     1.27 req/s  eta 637.5h
+  [429] backing off -> 1.00s/request
+  [429] backing off -> 2.00s/request
+  [429] backing off -> 4.00s/request
+  [429] backing off -> 8.00s/request
+
+=== chunk 1 @ 04:24:41 ===
+[shard 1/1] index=2,922,332 mine=2,922,332 done=3,962 todo=2,918,370
+  [429] backing off -> 1.00s/request
+  [challenge] re-solving in browser...
+  ! ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without
+      200/2,918,370  gone=47    fail=3      1.32 req/s  eta 614.0h
+      400/2,918,370  gone=50    fail=3      1.58 req/s  eta 512.7h
+      600/2,918,370  gone=53    fail=3      1.69 req/s  eta 479.2h
+      800/2,918,370  gone=54    fail=3      1.76 req/s  eta 461.6h
+    1,000/2,918,370  gone=57    fail=3      1.79 req/s  eta 451.5h
+    1,200/2,918,370  gone=57    fail=3      1.83 req/s  eta 443.6h
+    1,400/2,918,370  gone=59    fail=3      1.85 req/s  eta 438.8h
+  [429] backing off -> 1.00s/request
+    1,600/2,918,370  gone=59    fail=3      1.84 req/s  eta 441.0h
+    1,800/2,918,370  gone=62    fail=3      1.85 req/s  eta 438.0h
+
+=== chunk 1 @ 04:42:52 ===
+[shard 1/1] index=2,922,332 mine=2,922,332 done=5,960 todo=2,916,372
+  [challenge] re-solving in browser...
+      200/2,916,372  gone=66    fail=0      1.40 req/s  eta 580.0h
+      400/2,916,372  gone=71    fail=0      1.63 req/s  eta 498.3h
+      600/2,916,372  gone=72    fail=0      1.73 req/s  eta 467.8h
+  [429] backing off -> 1.00s/request
+      800/2,916,372  gone=75    fail=0      1.76 req/s  eta 459.6h
+  [429] backing off -> 1.00s/request
+    1,000/2,916,372  gone=79    fail=0      1.78 req/s  eta 455.2h
+    1,200/2,916,372  gone=81    fail=0      1.81 req/s  eta 447.5h
+    1,400/2,916,372  gone=84    fail=0      1.83 req/s  eta 442.2h
+    1,600/2,916,372  gone=84    fail=0      1.85 req/s  eta 437.5h
+    1,800/2,916,372  gone=89    fail=0      1.86 req/s  eta 435.0h
+    2,000/2,916,372  gone=90    fail=0      1.87 req/s  eta 432.4h
+    2,200/2,916,372  gone=94    fail=0      1.88 req/s  eta 430.5h
+  [429] backing off -> 1.00s/request
+    2,400/2,916,372  gone=96    fail=0      1.88 req/s  eta 430.7h
+  [429] backing off -> 1.00s/request
+  [429] backing off -> 1.94s/request
+    2,600/2,916,372  gone=99    fail=0      1.85 req/s  eta 438.1h
+    2,800/2,916,372  gone=102   fail=0      1.86 req/s  eta 436.2h
+    3,000/2,916,372  gone=105   fail=0      1.86 req/s  eta 434.3h
+    3,200/2,916,372  gone=108   fail=0      1.87 req/s  eta 432.9h
+    3,400/2,916,372  gone=110   fail=0      1.88 req/s  eta 431.4h
+    3,600/2,916,372  gone=115   fail=0      1.88 req/s  eta 430.5h
+    3,800/2,916,372  gone=118   fail=0      1.88 req/s  eta 429.4h
+    4,000/2,916,372  gone=120   fail=0      1.89 req/s  eta 428.4h
+    4,200/2,916,372  gone=124   fail=0      1.89 req/s  eta 427.6h
+  [429] backing off -> 1.00s/request
+    4,400/2,916,372  gone=130   fail=0      1.89 req/s  eta 428.1h
+  [challenge] re-solving in browser...
+    4,600/2,916,372  gone=133   fail=0      1.88 req/s  eta 429.6h
+  ! ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without
+    4,800/2,916,372  gone=137   fail=3      1.89 req/s  eta 429.0h
+    5,000/2,916,372  gone=139   fail=3      1.89 req/s  eta 428.0h
+    5,200/2,916,372  gone=142   fail=3      1.89 req/s  eta 427.3h
+    5,400/2,916,372  gone=144   fail=3      1.90 req/s  eta 426.6h
+    5,600/2,916,372  gone=145   fail=3      1.90 req/s  eta 425.9h
+    5,800/2,916,372  gone=147   fail=3      1.90 req/s  eta 425.3h
+    6,000/2,916,372  gone=147   fail=3      1.90 req/s  eta 424.5h
+    6,200/2,916,372  gone=150   fail=3      1.91 req/s  eta 424.0h
+    6,400/2,916,372  gone=159   fail=3      1.91 req/s  eta 423.9h
+    6,600/2,916,372  gone=164   fail=3      1.91 req/s  eta 423.7h
+    6,800/2,916,372  gone=167   fail=3      1.91 req/s  eta 423.2h
+
+[shard 1/1] ok=6,882 fail=3 elapsed=60.0m rate=1.91 req/s
+
+=== chunk 2 @ 05:43:22 ===
+[shard 1/1] index=2,922,332 mine=2,922,332 done=12,842 todo=2,909,490
+      200/2,909,490  gone=170   fail=0      1.08 req/s  eta 748.1h
+      400/2,909,490  gone=175   fail=0      1.39 req/s  eta 582.0h
+      600/2,909,490  gone=180   fail=0      1.54 req/s  eta 525.8h
+      800/2,909,490  gone=185   fail=0      1.62 req/s  eta 497.6h
+    1,000/2,909,490  gone=188   fail=0      1.68 req/s  eta 480.3h
+    1,200/2,909,490  gone=189   fail=0      1.73 req/s  eta 467.8h
+    1,400/2,909,490  gone=189   fail=0      1.76 req/s  eta 458.6h
+    1,600/2,909,490  gone=192   fail=0      1.79 req/s  eta 452.4h
+    1,800/2,909,490  gone=194   fail=0      1.80 req/s  eta 447.6h
+    2,000/2,909,490  gone=197   fail=0      1.82 req/s  eta 444.0h
+    2,200/2,909,490  gone=198   fail=0      1.83 req/s  eta 440.7h
+  [429] backing off -> 1.00s/request
+    2,400/2,909,490  gone=202   fail=0      1.83 req/s  eta 440.1h
+    2,600/2,909,490  gone=206   fail=0      1.84 req/s  eta 437.9h
+    2,800/2,909,490  gone=211   fail=0      1.85 req/s  eta 436.3h
+    3,000/2,909,490  gone=213   fail=0      1.86 req/s  eta 434.3h
+    3,200/2,909,490  gone=217   fail=0      1.87 req/s  eta 432.7h
+    3,400/2,909,490  gone=218   fail=0      1.87 req/s  eta 431.2h
+    3,600/2,909,490  gone=219   fail=0      1.88 req/s  eta 429.7h
+    3,800/2,909,490  gone=220   fail=0      1.88 req/s  eta 428.5h
+  [429] backing off -> 1.00s/request
+  [429] backing off -> 1.00s/request
+    4,000/2,909,490  gone=223   fail=0      1.88 req/s  eta 430.0h
+  [429] backing off -> 1.00s/request
+    4,200/2,909,490  gone=225   fail=0      1.88 req/s  eta 429.9h
+    4,400/2,909,490  gone=225   fail=0      1.88 req/s  eta 428.7h
+    4,600/2,909,490  gone=228   fail=0      1.89 req/s  eta 427.9h
+    4,800/2,909,490  gone=229   fail=0      1.89 req/s  eta 426.9h
+    5,000/2,909,490  gone=234   fail=0      1.89 req/s  eta 426.3h
+    5,200/2,909,490  gone=236   fail=0      1.90 req/s  eta 425.6h
+    5,400/2,909,490  gone=238   fail=0      1.90 req/s  eta 424.9h
+  ! ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without
+    5,600/2,909,490  gone=245   fail=1      1.90 req/s  eta 424.6h
+    5,800/2,909,490  gone=247   fail=1      1.90 req/s  eta 424.1h
+    6,000/2,909,490  gone=251   fail=1      1.90 req/s  eta 423.6h
+    6,200/2,909,490  gone=256   fail=1      1.91 req/s  eta 423.2h
+    6,400/2,909,490  gone=259   fail=1      1.91 req/s  eta 422.7h
+    6,600/2,909,490  gone=264   fail=1      1.91 req/s  eta 422.4h
+    6,800/2,909,490  gone=264   fail=1      1.91 req/s  eta 421.9h
+
+[shard 1/1] ok=6,888 fail=1 elapsed=60.0m rate=1.91 req/s
+
+=== chunk 3 @ 06:43:54 ===
+[shard 1/1] index=2,922,332 mine=2,922,332 done=19,730 todo=2,902,602
+      200/2,902,602  gone=268   fail=0      0.85 req/s  eta 945.3h
+      400/2,902,602  gone=273   fail=0      1.19 req/s  eta 679.2h
+      600/2,902,602  gone=275   fail=0      1.37 req/s  eta 588.7h
+      800/2,902,602  gone=276   fail=0      1.49 req/s  eta 542.6h
+    1,000/2,902,602  gone=277   fail=0      1.56 req/s  eta 515.0h
+    1,200/2,902,602  gone=282   fail=0      1.62 req/s  eta 498.0h
+    1,400/2,902,602  gone=287   fail=0      1.66 req/s  eta 485.7h
+    1,600/2,902,602  gone=288   fail=0      1.69 req/s  eta 475.6h
+    1,800/2,902,602  gone=289   fail=0      1.72 req/s  eta 468.2h
+    2,000/2,902,602  gone=291   fail=0      1.74 req/s  eta 462.0h
+    2,200/2,902,602  gone=292   fail=0      1.76 req/s  eta 456.6h
+    2,400/2,902,602  gone=295   fail=0      1.78 req/s  eta 452.6h
+    2,600/2,902,602  gone=297   fail=0      1.79 req/s  eta 449.1h
+    2,800/2,902,602  gone=298   fail=0      1.81 req/s  eta 445.9h
+  [429] backing off -> 1.00s/request
+    3,000/2,902,602  gone=298   fail=0      1.81 req/s  eta 444.7h
+    3,200/2,902,602  gone=301   fail=0      1.82 req/s  eta 442.3h
+    3,400/2,902,602  gone=301   fail=0      1.83 req/s  eta 439.9h
+  [429] backing off -> 1.00s/request
+    3,600/2,902,602  gone=303   fail=0      1.83 req/s  eta 439.3h
+  [429] backing off -> 1.00s/request
+    3,800/2,902,602  gone=306   fail=0      1.83 req/s  eta 439.0h
+  [429] backing off -> 1.00s/request
+    4,000/2,902,602  gone=307   fail=0      1.84 req/s  eta 438.4h
+  ! ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without
+    4,200/2,902,602  gone=309   fail=1      1.84 req/s  eta 437.1h
+    4,400/2,902,602  gone=312   fail=1      1.85 req/s  eta 435.7h
+    4,600/2,902,602  gone=314   fail=1      1.85 req/s  eta 434.4h
+    4,800/2,902,602  gone=314   fail=1      1.86 req/s  eta 433.0h
+    5,000/2,902,602  gone=316   fail=1      1.86 req/s  eta 431.9h
+  [429] backing off -> 1.00s/request
+    5,200/2,902,602  gone=318   fail=1      1.86 req/s  eta 431.9h
+    5,400/2,902,602  gone=320   fail=1      1.87 req/s  eta 430.8h
+  [429] backing off -> 1.00s/request
+    5,600/2,902,602  gone=322   fail=1      1.87 req/s  eta 430.8h
+    5,800/2,902,602  gone=324   fail=1      1.87 req/s  eta 430.0h
+    6,000/2,902,602  gone=324   fail=1      1.88 req/s  eta 429.1h
+    6,200/2,902,602  gone=324   fail=1      1.88 req/s  eta 428.1h
+    6,400/2,902,602  gone=324   fail=1      1.88 req/s  eta 427.3h
+    6,600/2,902,602  gone=325   fail=1      1.89 req/s  eta 426.5h
+    6,800/2,902,602  gone=328   fail=1      1.89 req/s  eta 426.0h
+
+[shard 1/1] ok=6,802 fail=1 elapsed=60.0m rate=1.89 req/s
+
+=== chunk 4 @ 07:44:26 ===
+[shard 1/1] index=2,922,332 mine=2,922,332 done=26,532 todo=2,895,800
+      200/2,895,800  gone=331   fail=0      0.75 req/s  eta 1068.9h
+      400/2,895,800  gone=333   fail=0      1.09 req/s  eta 737.8h
+      600/2,895,800  gone=336   fail=0      1.28 req/s  eta 628.5h
+      800/2,895,800  gone=337   fail=0      1.41 req/s  eta 571.9h
+    1,000/2,895,800  gone=342   fail=0      1.49 req/s  eta 540.3h
+    1,200/2,895,800  gone=344   fail=0      1.55 req/s  eta 517.8h
+    1,400/2,895,800  gone=345   fail=0      1.60 req/s  eta 501.2h
+    1,600/2,895,800  gone=348   fail=0      1.64 req/s  eta 489.9h
+    1,800/2,895,800  gone=348   fail=0      1.67 req/s  eta 480.2h
+  [429] backing off -> 1.00s/request
+    2,000/2,895,800  gone=349   fail=0      1.69 req/s  eta 474.7h
+    2,200/2,895,800  gone=351   fail=0      1.72 req/s  eta 468.5h
+    2,400/2,895,800  gone=351   fail=0      1.74 req/s  eta 462.9h
+  [429] backing off -> 1.00s/request
+    2,600/2,895,800  gone=352   fail=0      1.75 req/s  eta 460.0h
+  [429] backing off -> 1.00s/request
+    2,800/2,895,800  gone=357   fail=0      1.75 req/s  eta 458.2h
+    3,000/2,895,800  gone=358   fail=0      1.77 req/s  eta 454.5h
+    3,200/2,895,800  gone=361   fail=0      1.78 req/s  eta 451.6h
+  ! ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without
+    3,400/2,895,800  gone=362   fail=1      1.79 req/s  eta 448.8h
+    3,600/2,895,800  gone=363   fail=1      1.80 req/s  eta 446.3h
+    3,800/2,895,800  gone=366   fail=1      1.81 req/s  eta 444.3h
+  [429] backing off -> 1.00s/request
+    4,000/2,895,800  gone=369   fail=1      1.81 req/s  eta 443.5h
+    4,200/2,895,800  gone=373   fail=1      1.82 req/s  eta 441.9h
+    4,400/2,895,800  gone=374   fail=1      1.82 req/s  eta 440.2h
+    4,600/2,895,800  gone=377   fail=1      1.83 req/s  eta 438.7h
+    4,800/2,895,800  gone=383   fail=1      1.84 req/s  eta 437.6h
+  [429] backing off -> 1.00s/request
+    5,000/2,895,800  gone=385   fail=1      1.84 req/s  eta 437.2h
+  [429] backing off -> 1.00s/request
+    5,200/2,895,800  gone=389   fail=1      1.84 req/s  eta 437.0h
+    5,400/2,895,800  gone=391   fail=1      1.84 req/s  eta 435.8h
+    5,600/2,895,800  gone=392   fail=1      1.85 req/s  eta 434.6h
+    5,800/2,895,800  gone=394   fail=1      1.85 req/s  eta 433.6h
+    6,000/2,895,800  gone=395   fail=1      1.86 req/s  eta 432.6h
+    6,200/2,895,800  gone=399   fail=1      1.86 req/s  eta 431.8h
+    6,400/2,895,800  gone=404   fail=1      1.86 req/s  eta 431.1h
+  [429] backing off -> 1.00s/request
+    6,600/2,895,800  gone=407   fail=1      1.86 req/s  eta 430.8h
+
+[shard 1/1] ok=6,712 fail=1 elapsed=60.0m rate=1.86 req/s
+
+=== chunk 5 @ 08:45:00 ===
+[shard 1/1] index=2,922,332 mine=2,922,332 done=33,244 todo=2,889,088
+      200/2,889,088  gone=412   fail=0      0.65 req/s  eta 1228.6h
+  [429] backing off -> 1.00s/request
+      400/2,889,088  gone=414   fail=0      0.97 req/s  eta 829.4h
+      600/2,889,088  gone=419   fail=0      1.16 req/s  eta 689.7h
+      800/2,889,088  gone=423   fail=0      1.29 req/s  eta 619.6h
+    1,000/2,889,088  gone=426   fail=0      1.39 req/s  eta 577.2h
+    1,200/2,889,088  gone=431   fail=0      1.46 req/s  eta 549.6h
+    1,400/2,889,088  gone=432   fail=0      1.52 req/s  eta 528.8h
+    1,600/2,889,088  gone=435   fail=0      1.56 req/s  eta 513.5h
+    1,800/2,889,088  gone=439   fail=0      1.60 req/s  eta 502.2h
+  [429] backing off -> 1.00s/request
+    2,000/2,889,088  gone=444   fail=0      1.62 req/s  eta 495.1h
+  [429] backing off -> 1.00s/request
+  [429] backing off -> 1.00s/request
+    2,200/2,889,088  gone=451   fail=0      1.63 req/s  eta 490.6h
+    2,400/2,889,088  gone=457   fail=0      1.65 req/s  eta 485.4h
+  [429] backing off -> 1.00s/request
+    2,600/2,889,088  gone=460   fail=0      1.67 req/s  eta 481.1h
+    2,800/2,889,088  gone=463   fail=0      1.69 req/s  eta 475.7h
+    3,000/2,889,088  gone=465   fail=0      1.70 req/s  eta 470.9h
+  [429] backing off -> 1.00s/request
+    3,200/2,889,088  gone=467   fail=0      1.71 req/s  eta 468.3h
+    3,400/2,889,088  gone=472   fail=0      1.72 req/s  eta 464.9h
+    3,600/2,889,088  gone=477   fail=0      1.74 req/s  eta 461.9h
+  [429] backing off -> 1.00s/request
+  [429] backing off -> 1.00s/request
+    3,800/2,889,088  gone=481   fail=0      1.74 req/s  eta 460.3h
+    4,000/2,889,088  gone=487   fail=0      1.75 req/s  eta 459.1h
+    4,200/2,889,088  gone=490   fail=0      1.76 req/s  eta 456.5h
+    4,400/2,889,088  gone=490   fail=0      1.77 req/s  eta 454.0h
+    4,600/2,889,088  gone=490   fail=0      1.77 req/s  eta 451.6h
+  [429] backing off -> 1.00s/request
+    4,800/2,889,088  gone=491   fail=0      1.78 req/s  eta 449.6h
+    5,000/2,889,088  gone=493   fail=0      1.79 req/s  eta 448.6h
+    5,200/2,889,088  gone=499   fail=0      1.79 req/s  eta 447.3h
+    5,400/2,889,088  gone=502   fail=0      1.80 req/s  eta 445.7h
+    5,600/2,889,088  gone=505   fail=0      1.80 req/s  eta 444.3h
+  ! ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without
+    5,800/2,889,088  gone=509   fail=1      1.81 req/s  eta 443.0h
+    6,000/2,889,088  gone=512   fail=1      1.81 req/s  eta 441.8h
+    6,200/2,889,088  gone=513   fail=1      1.82 req/s  eta 440.5h
+    6,400/2,889,088  gone=515   fail=1      1.82 req/s  eta 439.4h
+
+[shard 1/1] ok=6,578 fail=1 elapsed=60.0m rate=1.83 req/s
+
+=== chunk 6 @ 09:45:32 ===
+[shard 1/1] index=2,922,332 mine=2,922,332 done=39,822 todo=2,882,510
+  [429] backing off -> 1.00s/request
+      200/2,882,510  gone=521   fail=0      0.35 req/s  eta 2306.0h
+      400/2,882,510  gone=524   fail=0      0.59 req/s  eta 1357.4h
+      600/2,882,510  gone=524   fail=0      0.77 req/s  eta 1037.7h
+      800/2,882,510  gone=526   fail=0      0.91 req/s  eta 880.0h
+    1,000/2,882,510  gone=529   fail=0      1.02 req/s  eta 784.9h
+    1,200/2,882,510  gone=531   fail=0      1.11 req/s  eta 721.6h
+    1,400/2,882,510  gone=537   fail=0      1.18 req/s  eta 677.2h
+    1,600/2,882,510  gone=541   fail=0      1.24 req/s  eta 643.4h
+    1,800/2,882,510  gone=544   fail=0      1.30 req/s  eta 617.1h
+  [429] backing off -> 1.00s/request
+    2,000/2,882,510  gone=549   fail=0      1.34 req/s  eta 596.7h
+    2,200/2,882,510  gone=551   fail=0      1.38 req/s  eta 581.0h
+    2,400/2,882,510  gone=554   fail=0      1.41 req/s  eta 566.3h
+    2,600/2,882,510  gone=560   fail=0      1.44 req/s  eta 554.5h
+  [429] backing off -> 1.00s/request
+    2,800/2,882,510  gone=563   fail=0      1.47 req/s  eta 545.6h
+    3,000/2,882,510  gone=565   fail=0      1.49 req/s  eta 535.9h
+    3,200/2,882,510  gone=566   fail=0      1.52 req/s  eta 527.5h
+  [429] backing off -> 1.00s/request
+  [429] backing off -> 1.00s/request
+    3,400/2,882,510  gone=573   fail=0      1.53 req/s  eta 523.6h
+    3,600/2,882,510  gone=573   fail=0      1.55 req/s  eta 516.8h
+    3,800/2,882,510  gone=574   fail=0      1.57 req/s  eta 510.8h
+    4,000/2,882,510  gone=575   fail=0      1.58 req/s  eta 505.3h
+    4,200/2,882,510  gone=577   fail=0      1.60 req/s  eta 500.4h
+    4,400/2,882,510  gone=581   fail=0      1.61 req/s  eta 496.1h
+    4,600/2,882,510  gone=581   fail=0      1.63 req/s  eta 491.9h
+    4,800/2,882,510  gone=582   fail=0      1.64 req/s  eta 488.1h
+    5,000/2,882,510  gone=585   fail=0      1.65 req/s  eta 484.7h
+    5,200/2,882,510  gone=585   fail=0      1.66 req/s  eta 481.4h
+    5,400/2,882,510  gone=588   fail=0      1.67 req/s  eta 478.6h
+    5,600/2,882,510  gone=588   fail=0      1.68 req/s  eta 475.7h
+    5,800/2,882,510  gone=590   fail=0      1.69 req/s  eta 473.3h
+    6,000/2,882,510  gone=590   fail=0      1.70 req/s  eta 470.7h
+
+[shard 1/1] ok=6,127 fail=0 elapsed=60.0m rate=1.70 req/s
+
+=== chunk 7 @ 10:46:04 ===
+[shard 1/1] index=2,922,332 mine=2,922,332 done=45,949 todo=2,876,383
+      200/2,876,383  gone=599   fail=0      0.50 req/s  eta 1596.5h
+      400/2,876,383  gone=600   fail=0      0.80 req/s  eta 999.3h
+  [429] backing off -> 1.00s/request
+      600/2,876,383  gone=603   fail=0      0.99 req/s  eta 808.6h
+      800/2,876,383  gone=607   fail=0      1.13 req/s  eta 708.4h
+    1,000/2,876,383  gone=611   fail=0      1.23 req/s  eta 647.9h
+    1,200/2,876,383  gone=613   fail=0      1.31 req/s  eta 607.8h
+    1,400/2,876,383  gone=616   fail=0      1.38 req/s  eta 578.7h
+  [429] backing off -> 1.00s/request
+    1,600/2,876,383  gone=619   fail=0      1.43 req/s  eta 559.8h
+    1,800/2,876,383  gone=623   fail=0      1.47 req/s  eta 542.8h
+    2,000/2,876,383  gone=625   fail=0      1.51 req/s  eta 528.9h
+    2,200/2,876,383  gone=628   fail=0      1.54 req/s  eta 517.6h
+    2,400/2,876,383  gone=630   fail=0      1.57 req/s  eta 508.0h
+    2,600/2,876,383  gone=632   fail=0      1.60 req/s  eta 500.1h
+  [429] backing off -> 1.00s/request
+    2,800/2,876,383  gone=634   fail=0      1.61 req/s  eta 494.7h
+    3,000/2,876,383  gone=637   fail=0      1.63 req/s  eta 488.7h
+    3,200/2,876,383  gone=638   fail=0      1.65 req/s  eta 483.3h
+    3,400/2,876,383  gone=639   fail=0      1.67 req/s  eta 478.4h
+    3,600/2,876,383  gone=640   fail=0      1.68 req/s  eta 474.0h
+  [429] backing off -> 1.00s/request
+    3,800/2,876,383  gone=641   fail=0      1.69 req/s  eta 471.4h
+  [429] backing off -> 1.00s/request
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+
+=== chunk 8 @ 12:01:25 ===
+[shard 1/1] index=2,922,332 mine=2,922,332 done=49,939 todo=2,872,393
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+
+=== chunk 9 @ 13:16:37 ===
+[shard 1/1] index=2,922,332 mine=2,922,332 done=49,939 todo=2,872,393
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
+  [challenge] re-solving in browser...
