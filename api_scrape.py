@@ -99,7 +99,10 @@ def discover_selection(api):
             continue
         sub = api('{ __type(name: "%s") { fields { name type { name kind '
                   'ofType { name kind } } } } }' % tname)["__type"]
-        if not sub:                      # scalar after all
+        # A scalar/enum type comes back with fields = null, not an empty list;
+        # iterating that is a TypeError, which is how the first run died while
+        # the workflow still reported success.
+        if not sub or not sub.get("fields"):
             parts.append(fname)
             continue
         # Keep only leaf scalars - nesting deeper multiplies response size for

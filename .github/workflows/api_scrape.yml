@@ -41,7 +41,11 @@ jobs:
             exit 1
           fi
           mkdir -p diagnostics
-          python api_scrape.py --out api_data --max-seconds 19800 2>&1 | tail -40
+          mkdir -p diagnostics
+          # pipefail matters: piping to tail masked a Python failure and the
+          # step reported success while producing nothing at all.
+          set -o pipefail
+          python api_scrape.py --out api_data --max-seconds 19800             2>&1 | tee diagnostics/api_scrape_log.txt | tail -40
 
       - name: Publish findings
         if: always()
@@ -50,7 +54,7 @@ jobs:
           git config user.email "scraper@users.noreply.github.com"
           # Only the schema and the printed summary - no model data, and
           # nothing that could contain the key.
-          git add -f api_data/ 2>/dev/null || true
+          git add -f api_data/ diagnostics/api_scrape_log.txt 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "nothing produced"
           else
