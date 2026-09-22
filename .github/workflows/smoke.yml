@@ -9,12 +9,11 @@ name: smoke
 # read, so this commits its findings into diagnostics/ instead, where they can
 # be read from the public raw URL.
 
+# Answered its question on 2026-09-22: Cloudflare will not clear a GitHub
+# runner's datacentre IP (see diagnostics/ci_report.json). Left in place so the
+# result can be re-checked if Cults3D changes its Cloudflare settings, but no
+# longer runs on every push - each run costs 25 minutes and a commit.
 on:
-  push:
-    branches: [main]
-    paths-ignore:
-      - "diagnostics/**"     # belt and braces; GITHUB_TOKEN pushes do not
-      - "details/**"         # retrigger workflows anyway
   workflow_dispatch:
 
 permissions:
