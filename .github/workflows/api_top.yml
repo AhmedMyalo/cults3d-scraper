@@ -7,11 +7,16 @@ name: api-top
 
 on:
   schedule:
-    # 21:00 UTC. GitHub delays scheduled runs under load - the first one
-    # fired 4.7 hours late - and the quota looks like a rolling 24h window,
-    # so a late run can land inside the previous day's spent allowance. This
-    # sits well clear of the evening runs that set the pattern.
-    - cron: "0 21 * * *"
+    # Four attempts a day, at odd minutes. GitHub drops scheduled runs
+    # outright when the free runner queue is busy - the 21:00 run simply
+    # never happened - and the top of the hour is the worst slot for it.
+    # Since a spent quota now exits cleanly, extra attempts cost nothing:
+    # whichever one lands while the allowance has reset does the work and
+    # the rest are silent no-ops. One dropped run no longer loses a day.
+    - cron: "17 2 * * *"
+    - cron: "23 8 * * *"
+    - cron: "41 14 * * *"
+    - cron: "37 20 * * *"
   workflow_dispatch:
 
 permissions:
