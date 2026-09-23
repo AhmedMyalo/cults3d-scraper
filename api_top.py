@@ -65,9 +65,6 @@ def main():
         sys.exit("CULTS_USER / CULTS_KEY not set")
 
     api = Api(user, key)
-    fields = discover_selection(api)
-    print(f'[schema] selection built by introspection '
-          f'({len(fields.split())} tokens)')
     os.makedirs(args.out, exist_ok=True)
     state_path = os.path.join(args.out, "progress.json")
     state = json.load(open(state_path, encoding="utf-8")) \
@@ -82,11 +79,18 @@ def main():
     have = known_slugs()
     print(f"[skip] {len(have):,} slugs already held from earlier phases")
 
+    quota_stop = [False]
     writer = Writer(args.out)
     t0, added, skipped = time.time(), 0, 0
     finished = True
 
     try:
+        # Inside the try: a Stop raised here used to escape uncaught, which is
+        # why a spent quota showed up as a red failed job rather than a clean
+        # "come back tomorrow".
+        fields = discover_selection(api)
+        print(f"[schema] selection built by introspection "
+              f"({len(fields.split())} tokens)")
         for c in cats:
             slug = c["slug"]
             target = min(args.per_category, c["recent_paid"], OFFSET_CAP)
@@ -128,9 +132,17 @@ def main():
             print(f"[{slug}] done at {off:,}")
     except Stop as e:
         finished = False
-        print(f"\n[STOPPED] {e}")
-        print("[STOPPED] Not retrying. A daily cap resumes tomorrow on its "
-              "own; a schema error needs fixing first.")
+        msg = str(e)
+        print(f"\n[STOPPED] {msg}")
+        if "429" in msg or "403" in msg:
+            # The daily allowance being spent is the expected way a run ends,
+            # not a fault. Exiting 0 keeps GitHub from marking the job red and
+            # emailing him about something working exactly as designed.
+            print("[STOPPED] Quota refusal, which is normal. Nothing is "
+                  "broken; the next run resumes from here.")
+            quota_stop[0] = True
+        else:
+            print("[STOPPED] Not a quota refusal, so this one needs a look.")
     except KeyboardInterrupt:
         print("\n[time budget reached]")
     finally:
@@ -145,6 +157,8 @@ def main():
         # The workflow reads this to decide whether to raise the finish notice.
         with open(os.path.join(args.out, "COMPLETE"), "w") as f:
             f.write("yes" if done_all else "no")
+    if quota_stop[0]:
+        sys.exit(0)
 
 
 if __name__ == "__main__":

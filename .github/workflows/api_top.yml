@@ -7,7 +7,11 @@ name: api-top
 
 on:
   schedule:
-    - cron: "0 6 * * *"      # 06:00 UTC daily
+    # 21:00 UTC. GitHub delays scheduled runs under load - the first one
+    # fired 4.7 hours late - and the quota looks like a rolling 24h window,
+    # so a late run can land inside the previous day's spent allowance. This
+    # sits well clear of the evening runs that set the pattern.
+    - cron: "0 21 * * *"
   workflow_dispatch:
 
 permissions:
