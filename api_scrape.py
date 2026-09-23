@@ -65,11 +65,16 @@ class Api:
         r = self.s.post(ENDPOINT, json={"query": query,
                                         "variables": variables or {}},
                         timeout=90)
+        # Always carry the body and the rate headers into the message. A 403
+        # on request 1 told us nothing last time and left us guessing whether
+        # the key was revoked or the daily quota was simply still spent.
+        rl = {k: v for k, v in r.headers.items() if "ratelimit" in k.lower()}
         if r.status_code == 429:
-            raise Stop(f"HTTP 429 after {self.count} requests "
-                       f"(reset: {r.headers.get('x-ratelimit-reset')})")
+            raise Stop(f"HTTP 429 after {self.count} requests | {rl} | "
+                       f"{r.text[:300]}")
         if r.status_code == 403:
-            raise Stop(f"HTTP 403 after {self.count} requests")
+            raise Stop(f"HTTP 403 after {self.count} requests | {rl} | "
+                       f"body: {r.text[:300]}")
         if r.status_code != 200:
             raise Stop(f"HTTP {r.status_code}: {r.text[:200]}")
         body = r.json()
