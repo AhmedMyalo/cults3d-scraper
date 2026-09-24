@@ -1,44 +1,41 @@
-[skip] 241,877 slugs already held from earlier phases
+[skip] 243,754 slugs already held from earlier phases
 [schema] selection built by introspection (67 tokens)
 
-[tool] target 30,000, resuming at offset 18,200
-  tool: 20,000/30,000 | +1,777 new | 23 already held
+[tool] target 30,000, resuming at offset 20,100
+  tool: 22,000/30,000 | +1,859 new | 41 already held
+  tool: 24,000/30,000 | +3,842 new | 58 already held
+  tool: 26,000/30,000 | +5,815 new | 85 already held
+  tool: 28,000/30,000 | +7,773 new | 127 already held
+  tool: 30,000/30,000 | +9,753 new | 147 already held
+[tool] done at 30,000
 
-[done] +1,877 new | 23 already held | 32 requests | 6.2 min
-[progress] 95,528 model-slots still to go
-Traceback (most recent call last):
-  File "/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/requests/models.py", line 937, in generate
-    yield from self.raw.stream(chunk_size, decode_content=True)
-  File "/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/urllib3/response.py", line 1284, in stream
-    yield from self.read_chunked(amt, decode_content=decode_content)
-  File "/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/urllib3/response.py", line 1459, in read_chunked
-    self._update_chunk_length()
-  File "/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/urllib3/response.py", line 1383, in _update_chunk_length
-    raise ProtocolError("Response ended prematurely") from None
-urllib3.exceptions.ProtocolError: Response ended prematurely
+[gadget] target 30,000, resuming at offset 0
+  gadget: 2,000/30,000 | +11,715 new | 185 already held
+  gadget: 4,000/30,000 | +13,684 new | 216 already held
+  gadget: 6,000/30,000 | +15,654 new | 246 already held
+  gadget: 8,000/30,000 | +17,614 new | 286 already held
+  gadget: 10,000/30,000 | +19,595 new | 305 already held
+  gadget: 12,000/30,000 | +21,570 new | 330 already held
+  gadget: 14,000/30,000 | +23,537 new | 363 already held
+  gadget: 16,000/30,000 | +25,507 new | 393 already held
+  gadget: 18,000/30,000 | +27,479 new | 421 already held
+  gadget: 20,000/30,000 | +29,462 new | 438 already held
+  gadget: 22,000/30,000 | +31,425 new | 475 already held
+  gadget: 24,000/30,000 | +33,403 new | 497 already held
+  gadget: 26,000/30,000 | +35,359 new | 541 already held
+  gadget: 28,000/30,000 | +37,353 new | 547 already held
+  gadget: 30,000/30,000 | +39,317 new | 583 already held
+[gadget] done at 30,000
 
-During handling of the above exception, another exception occurred:
+[fashion] target 30,000, resuming at offset 0
+  fashion: 2,000/30,000 | +41,285 new | 615 already held
+  fashion: 4,000/30,000 | +43,260 new | 640 already held
+  fashion: 6,000/30,000 | +45,235 new | 665 already held
+  fashion: 8,000/30,000 | +47,202 new | 698 already held
 
-Traceback (most recent call last):
-  File "/home/runner/work/cults3d-scraper/cults3d-scraper/api_top.py", line 165, in <module>
-    main()
-  File "/home/runner/work/cults3d-scraper/cults3d-scraper/api_top.py", line 107, in main
-    rows = api(q, {"a": since, "c": slug, "o": off})["creationsBatch"]["results"]
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/cults3d-scraper/cults3d-scraper/api_scrape.py", line 65, in __call__
-    r = self.s.post(ENDPOINT, json={"query": query,
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/requests/sessions.py", line 712, in post
-    return self.request("POST", url, data=data, json=json, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/requests/sessions.py", line 651, in request
-    resp = self.send(prep, **send_kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/requests/sessions.py", line 827, in send
-    r.content
-  File "/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/requests/models.py", line 1042, in content
-    self._content = b"".join(self.iter_content(CONTENT_CHUNK_SIZE)) or b""
-                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/requests/models.py", line 939, in generate
-    raise ChunkedEncodingError(e)
-requests.exceptions.ChunkedEncodingError: Response ended prematurely
+[STOPPED] HTTP 429 after 501 requests | {} | Retry later
+
+[STOPPED] Quota refusal, which is normal. Nothing is broken; the next run resumes from here.
+
+[done] +48,085 new | 715 already held | 501 requests | 24.3 min
+[progress] 46,728 model-slots still to go
