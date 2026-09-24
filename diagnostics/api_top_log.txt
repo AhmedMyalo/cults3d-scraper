@@ -1,12 +1,38 @@
-Traceback (most recent call last):
-  File "/home/runner/work/cults3d-scraper/cults3d-scraper/api_top.py", line 151, in <module>
-    main()
-  File "/home/runner/work/cults3d-scraper/cults3d-scraper/api_top.py", line 68, in main
-    fields = discover_selection(api)
-             ^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/cults3d-scraper/cults3d-scraper/api_scrape.py", line 83, in discover_selection
-    typemap = api("""
-              ^^^^^^^
-  File "/home/runner/work/cults3d-scraper/cults3d-scraper/api_scrape.py", line 72, in __call__
-    raise Stop(f"HTTP 403 after {self.count} requests")
-api_scrape.Stop: HTTP 403 after 1 requests
+[skip] 145,737 slugs already held from earlier phases
+[schema] selection built by introspection (67 tokens)
+
+[home] target 30,000, resuming at offset 10,600
+  home: 12,000/30,000 | +1,376 new | 24 already held
+  home: 14,000/30,000 | +3,343 new | 57 already held
+  home: 16,000/30,000 | +5,312 new | 88 already held
+  home: 18,000/30,000 | +7,287 new | 113 already held
+  home: 20,000/30,000 | +9,262 new | 138 already held
+  home: 22,000/30,000 | +11,236 new | 164 already held
+  home: 24,000/30,000 | +13,204 new | 196 already held
+  home: 26,000/30,000 | +15,181 new | 219 already held
+  home: 28,000/30,000 | +17,157 new | 243 already held
+  home: 30,000/30,000 | +19,116 new | 284 already held
+[home] done at 30,000
+
+[various] target 30,000, resuming at offset 0
+  various: 2,000/30,000 | +21,081 new | 319 already held
+  various: 4,000/30,000 | +23,032 new | 368 already held
+  various: 6,000/30,000 | +25,002 new | 398 already held
+  various: 8,000/30,000 | +26,975 new | 425 already held
+  various: 10,000/30,000 | +28,951 new | 449 already held
+  various: 12,000/30,000 | +30,911 new | 489 already held
+  various: 14,000/30,000 | +32,879 new | 521 already held
+  various: 16,000/30,000 | +34,851 new | 549 already held
+  various: 18,000/30,000 | +36,815 new | 585 already held
+  various: 20,000/30,000 | +38,791 new | 609 already held
+  various: 22,000/30,000 | +40,759 new | 641 already held
+  various: 24,000/30,000 | +42,736 new | 664 already held
+  various: 26,000/30,000 | +44,698 new | 702 already held
+  various: 28,000/30,000 | +46,666 new | 734 already held
+
+[STOPPED] HTTP 429 after 501 requests | {} | Retry later
+
+[STOPPED] Quota refusal, which is normal. Nothing is broken; the next run resumes from here.
+
+[done] +48,040 new | 760 already held | 501 requests | 45.4 min
+[progress] 146,228 model-slots still to go
