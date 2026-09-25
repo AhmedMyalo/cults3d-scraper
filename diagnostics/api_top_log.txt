@@ -1,34 +1,5 @@
-[skip] 291,839 slugs already held from earlier phases
+[skip] 338,075 slugs already held from earlier phases
 [schema] selection built by introspection (67 tokens)
 
-[fashion] target 30,000, resuming at offset 8,900
-  fashion: 10,000/30,000 | +1,080 new | 20 already held
-  fashion: 12,000/30,000 | +3,052 new | 48 already held
-  fashion: 14,000/30,000 | +5,026 new | 74 already held
-  fashion: 16,000/30,000 | +6,998 new | 102 already held
-  fashion: 18,000/30,000 | +8,971 new | 129 already held
-  fashion: 20,000/30,000 | +10,930 new | 170 already held
-  fashion: 22,000/30,000 | +12,917 new | 182 already held
-  fashion: 24,000/30,000 | +14,883 new | 216 already held
-  fashion: 26,000/30,000 | +16,869 new | 230 already held
-  fashion: 28,000/30,000 | +18,867 new | 232 already held
-  fashion: 30,000/30,000 | +20,840 new | 259 already held
-[fashion] done at 30,000
-
-[architecture] target 25,628, resuming at offset 0
-  architecture: 2,000/25,628 | +22,804 new | 295 already held
-  architecture: 4,000/25,628 | +24,766 new | 333 already held
-  architecture: 6,000/25,628 | +26,731 new | 368 already held
-  architecture: 8,000/25,628 | +28,715 new | 384 already held
-  architecture: 10,000/25,628 | +30,691 new | 408 already held
-  architecture: 12,000/25,628 | +32,683 new | 416 already held
-  architecture: 14,000/25,628 | +34,683 new | 416 already held
-  architecture: 16,000/25,628 | +36,683 new | 416 already held
-  architecture: 18,000/25,628 | +38,660 new | 439 already held
-  architecture: 20,000/25,628 | +40,634 new | 465 already held
-  architecture: 22,000/25,628 | +42,603 new | 496 already held
-  architecture: 24,000/25,628 | +44,570 new | 529 already held
-[architecture] done at 25,700
-
-[done] +46,236 new | 563 already held | 480 requests | 24.4 min
+[done] +0 new | 0 already held | 12 requests | 0.2 min
 [progress] 0 model-slots still to go
