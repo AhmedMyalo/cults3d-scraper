@@ -9,3 +9,7 @@ supervise.log
 scrape.log
 fp_profile/
 .env
+
+# 380MB, well past GitHub 100MB limit. Rebuilt any time with merge_all.py
+# from the raw collections, which ARE tracked - so nothing is lost by this.
+merged/
