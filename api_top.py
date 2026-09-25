@@ -80,6 +80,7 @@ def main():
     print(f"[skip] {len(have):,} slugs already held from earlier phases")
 
     quota_stop = [False]
+    unexpected = [False]
     writer = Writer(args.out)
     t0, added, skipped = time.time(), 0, 0
     finished = True
@@ -145,6 +146,13 @@ def main():
             print("[STOPPED] Not a quota refusal, so this one needs a look.")
     except KeyboardInterrupt:
         print("\n[time budget reached]")
+    except Exception as e:
+        # Anything not anticipated stays a real failure worth an email, but the
+        # finally block below still saves progress, so a run that dies at
+        # minute seven keeps everything it collected in those seven minutes.
+        finished = False
+        unexpected[0] = True
+        print(f"\n[ERROR] unexpected {type(e).__name__}: {e}")
     finally:
         writer.close()
         json.dump(state, open(state_path, "w", encoding="utf-8"), indent=2)
@@ -157,6 +165,8 @@ def main():
         # The workflow reads this to decide whether to raise the finish notice.
         with open(os.path.join(args.out, "COMPLETE"), "w") as f:
             f.write("yes" if done_all else "no")
+    if unexpected[0]:
+        sys.exit(1)
     if quota_stop[0]:
         sys.exit(0)
 

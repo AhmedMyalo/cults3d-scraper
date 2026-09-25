@@ -62,9 +62,29 @@ class Api:
             time.sleep(wait)
         self.next_at = time.time() + self.gap
         self.count += 1
-        r = self.s.post(ENDPOINT, json={"query": query,
-                                        "variables": variables or {}},
-                        timeout=90)
+
+        # A dropped connection is not the site refusing us. The standing rule
+        # (first 429/403 = full stop) is about refusals; a ChunkedEncodingError
+        # mid-response is a network hiccup, and one of those killed an
+        # otherwise healthy run after seven minutes of good work. Retry those
+        # a bounded number of times, and let a real refusal below still stop
+        # everything on the first occurrence.
+        last = None
+        for attempt in range(3):
+            try:
+                r = self.s.post(ENDPOINT,
+                                json={"query": query, "variables": variables or {}},
+                                timeout=90)
+                break
+            except (requests.exceptions.ChunkedEncodingError,
+                    requests.exceptions.ConnectionError,
+                    requests.exceptions.Timeout) as e:
+                last = e
+                print(f"  [network] {type(e).__name__} on attempt "
+                      f"{attempt + 1}/3, retrying", flush=True)
+                time.sleep(5 * (attempt + 1))
+        else:
+            raise Stop(f"network failed 3 times: {type(last).__name__}: {last}")
         # Always carry the body and the rate headers into the message. A 403
         # on request 1 told us nothing last time and left us guessing whether
         # the key was revoked or the daily quota was simply still spent.
