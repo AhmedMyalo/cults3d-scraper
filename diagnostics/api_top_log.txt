@@ -1,41 +1,34 @@
-[skip] 243,754 slugs already held from earlier phases
+[skip] 291,839 slugs already held from earlier phases
 [schema] selection built by introspection (67 tokens)
 
-[tool] target 30,000, resuming at offset 20,100
-  tool: 22,000/30,000 | +1,859 new | 41 already held
-  tool: 24,000/30,000 | +3,842 new | 58 already held
-  tool: 26,000/30,000 | +5,815 new | 85 already held
-  tool: 28,000/30,000 | +7,773 new | 127 already held
-  tool: 30,000/30,000 | +9,753 new | 147 already held
-[tool] done at 30,000
+[fashion] target 30,000, resuming at offset 8,900
+  fashion: 10,000/30,000 | +1,080 new | 20 already held
+  fashion: 12,000/30,000 | +3,052 new | 48 already held
+  fashion: 14,000/30,000 | +5,026 new | 74 already held
+  fashion: 16,000/30,000 | +6,998 new | 102 already held
+  fashion: 18,000/30,000 | +8,971 new | 129 already held
+  fashion: 20,000/30,000 | +10,930 new | 170 already held
+  fashion: 22,000/30,000 | +12,917 new | 182 already held
+  fashion: 24,000/30,000 | +14,883 new | 216 already held
+  fashion: 26,000/30,000 | +16,869 new | 230 already held
+  fashion: 28,000/30,000 | +18,867 new | 232 already held
+  fashion: 30,000/30,000 | +20,840 new | 259 already held
+[fashion] done at 30,000
 
-[gadget] target 30,000, resuming at offset 0
-  gadget: 2,000/30,000 | +11,715 new | 185 already held
-  gadget: 4,000/30,000 | +13,684 new | 216 already held
-  gadget: 6,000/30,000 | +15,654 new | 246 already held
-  gadget: 8,000/30,000 | +17,614 new | 286 already held
-  gadget: 10,000/30,000 | +19,595 new | 305 already held
-  gadget: 12,000/30,000 | +21,570 new | 330 already held
-  gadget: 14,000/30,000 | +23,537 new | 363 already held
-  gadget: 16,000/30,000 | +25,507 new | 393 already held
-  gadget: 18,000/30,000 | +27,479 new | 421 already held
-  gadget: 20,000/30,000 | +29,462 new | 438 already held
-  gadget: 22,000/30,000 | +31,425 new | 475 already held
-  gadget: 24,000/30,000 | +33,403 new | 497 already held
-  gadget: 26,000/30,000 | +35,359 new | 541 already held
-  gadget: 28,000/30,000 | +37,353 new | 547 already held
-  gadget: 30,000/30,000 | +39,317 new | 583 already held
-[gadget] done at 30,000
+[architecture] target 25,628, resuming at offset 0
+  architecture: 2,000/25,628 | +22,804 new | 295 already held
+  architecture: 4,000/25,628 | +24,766 new | 333 already held
+  architecture: 6,000/25,628 | +26,731 new | 368 already held
+  architecture: 8,000/25,628 | +28,715 new | 384 already held
+  architecture: 10,000/25,628 | +30,691 new | 408 already held
+  architecture: 12,000/25,628 | +32,683 new | 416 already held
+  architecture: 14,000/25,628 | +34,683 new | 416 already held
+  architecture: 16,000/25,628 | +36,683 new | 416 already held
+  architecture: 18,000/25,628 | +38,660 new | 439 already held
+  architecture: 20,000/25,628 | +40,634 new | 465 already held
+  architecture: 22,000/25,628 | +42,603 new | 496 already held
+  architecture: 24,000/25,628 | +44,570 new | 529 already held
+[architecture] done at 25,700
 
-[fashion] target 30,000, resuming at offset 0
-  fashion: 2,000/30,000 | +41,285 new | 615 already held
-  fashion: 4,000/30,000 | +43,260 new | 640 already held
-  fashion: 6,000/30,000 | +45,235 new | 665 already held
-  fashion: 8,000/30,000 | +47,202 new | 698 already held
-
-[STOPPED] HTTP 429 after 501 requests | {} | Retry later
-
-[STOPPED] Quota refusal, which is normal. Nothing is broken; the next run resumes from here.
-
-[done] +48,085 new | 715 already held | 501 requests | 24.3 min
-[progress] 46,728 model-slots still to go
+[done] +46,236 new | 563 already held | 480 requests | 24.4 min
+[progress] 0 model-slots still to go
